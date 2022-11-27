@@ -22,3 +22,13 @@ export type Show = {
   RatingLabel: string
   PresentationMethod: string
 }
+
+export type PollingConfig = {
+  Theatre: Theatre
+  DayOffset: number
+}
+
+export type Theatre = {
+  Id: string
+  Name: string
+}

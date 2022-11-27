@@ -1,0 +1,33 @@
+.settings-logo {
+    margin: 40px;
+    height: auto;
+}
+
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+.settings-panel {
+    height: 60%;
+}
+.button-panel {
+    height: 20%;
+}
+.run-button {
+    align-content: end;
+    box-sizing: border-box;
+
+    background: #191919;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 30px;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+.run-button:hover {opacity: 1}
