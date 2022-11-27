@@ -1,0 +1,33 @@
+
+.logo {
+  margin-bottom: 30px;
+}
+
+.logo-name-time-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.date-time-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.date-string {
+  font-family: Gilroy, serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-align: right;
+  opacity: 0.5;
+}
+.time-string {
+  font-family: Gilroy, serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-align: right;
+}

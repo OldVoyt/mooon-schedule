@@ -1,0 +1,5 @@
+.movies-list-wrapper {
+  display: flex;
+  flex-flow: column wrap;
+  height: 100%;
+}
