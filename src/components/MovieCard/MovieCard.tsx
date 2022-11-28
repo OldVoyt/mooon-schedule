@@ -22,17 +22,15 @@ const prepareWarning = (show: Show): string | null => {
     const date = new Date(show.dttmShowStart)
     const now = new Date()
 
-    const difference = now.getTime() - date.getTime() // This will give difference in milliseconds
-    const resultInMinutes = Math.round(difference / 60000)
-    if (Math.abs(resultInMinutes) > 30) {
-        return null
-    }
-    if (resultInMinutes < 0) {
-        return `через ${-resultInMinutes} ${getMinuteLocalized(
-            -resultInMinutes
-        )}`
-    }
-    return `идёт ${resultInMinutes} ${getMinuteLocalized(resultInMinutes)}`
+  const difference = now.getTime() - date.getTime() // This will give difference in milliseconds
+  const resultInMinutes = Math.round(difference / 60000)
+  if (Math.abs(resultInMinutes) > 30) {
+    return null
+  }
+  if (resultInMinutes < 0) {
+    return ` через ${-resultInMinutes} ${getMinuteLocalized(-resultInMinutes)} `
+  }
+  return ` идёт ${resultInMinutes} ${getMinuteLocalized(resultInMinutes)} `
 }
 
 const line = () => (
