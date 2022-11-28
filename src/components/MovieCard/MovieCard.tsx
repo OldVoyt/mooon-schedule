@@ -28,9 +28,9 @@ const prepareWarning = (show: Show): string | null => {
     return null
   }
   if (resultInMinutes < 0) {
-    return `через ${-resultInMinutes} ${getMinuteLocalized(-resultInMinutes)}`
+    return `  через ${-resultInMinutes} ${getMinuteLocalized(-resultInMinutes)}  `
   }
-  return `идёт ${resultInMinutes} ${getMinuteLocalized(resultInMinutes)}`
+  return `  идёт ${resultInMinutes} ${getMinuteLocalized(resultInMinutes)}  `
 }
 
 const line = () => (
