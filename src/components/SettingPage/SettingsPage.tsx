@@ -1,27 +1,41 @@
 import './SettingsPage.css'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { PollingConfig, Theatre } from '../../types/ScheduleTypes'
 import { useNavigate } from 'react-router-dom'
 import { DaysOffsetAvailable, TheatresAvailable } from '../../types/Settings'
 import Select from 'react-select'
 import { Options } from 'react-select/dist/declarations/src/types'
+import { useCookies } from 'react-cookie'
+
 export interface ISettingsPageProps {
   setPollingConfig: (pollingConfig: PollingConfig) => void
 }
 
 export const SettingsPage = ({ setPollingConfig }: ISettingsPageProps) => {
+  const [cookie, setCookie] = useCookies(['pollingConfig'])
+
   const [currentTheatre, setTheatre] = useState<Theatre>({
     Name: TheatresAvailable.find(value => value.Id === '19')!.Name,
     Id: '19'
   })
   const [currentDaysOffset, setDaysOffset] = useState<number>(0)
-
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const initialPollingConfig = cookie.pollingConfig as PollingConfig
+    if (initialPollingConfig) {
+      setDaysOffset(initialPollingConfig.DayOffset)
+      setTheatre(initialPollingConfig.Theatre)
+    }
+  }, [])
+
   const onRunClick = () => {
-    setPollingConfig({
+    const pollingConfig = {
       Theatre: currentTheatre,
       DayOffset: currentDaysOffset
-    })
+    }
+    setPollingConfig(pollingConfig)
+    setCookie('pollingConfig', pollingConfig)
     navigate('/schedule')
   }
   return (
