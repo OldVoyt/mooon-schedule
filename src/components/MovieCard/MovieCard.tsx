@@ -35,13 +35,19 @@ const prepareWarning = (show: Show): string | null => {
 }
 
 const line = () => (
-  <svg width="450" height="1" viewBox="0 0 450 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    className="cards-divider"
+    width="450"
+    height="1"
+    viewBox="0 0 450 1"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <line x1="0.5" y1="0.5" x2="449.5" y2="0.5" stroke="url(#paint0_linear_1_602)" strokeLinecap="round" />
     <defs>
       <linearGradient id="paint0_linear_1_602" x1="450" y1="1.99979" x2="0" y2="1.99979" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#262626" stopOpacity="0" />
-        <stop offset="0.375" stopColor="#262626" />
-        <stop offset="1" stopColor="#262626" />
+        <stop stopColor="FFFFFF" stopOpacity="1" />
+        <stop offset="0.2" stopColor="#FFFFFF" />
       </linearGradient>
     </defs>
   </svg>
