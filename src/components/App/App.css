@@ -15,8 +15,9 @@ body {
     background-image: linear-gradient(
     rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)
     ),
+    url("https://i.pinimg.com/originals/01/62/f1/0162f15ff87e60ab45b027a1beef99b0.gif"),
     url("https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/RVVwi2xm6AnKav4vSzPS/pub/BRa1rkpoDZnkbUj0EWpn.jpg");
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(5px);
 }
 
 .root {
