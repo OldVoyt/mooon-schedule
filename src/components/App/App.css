@@ -7,9 +7,15 @@ body {
     background: black;
     font-family: Arial;
     display: flex;
-    height: 90vh;
+    height: 100vh;
+    lenght: 100vw;
     overflow: hidden;
     margin: 0;
+    background-image: linear-gradient(
+    rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)
+    ),
+    url("https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/RVVwi2xm6AnKav4vSzPS/pub/BRa1rkpoDZnkbUj0EWpn.jpg");
+    backdrop-filter: blur(30px);
 }
 
 .root {
