@@ -40,9 +40,6 @@ const CurrentDateTime = (currentDateTime: Date | null) => {
         })}`}</span>
       )}
       <div className="time-settings-button-container">
-        <button className="settings-button" onClick={() => navigate('/settings')}>
-          ...
-        </button>
         {currentDateTime && (
           <span className="time-string">{`${currentDateTime.getHours().toLocaleString('en-US', {
             minimumIntegerDigits: 2,
@@ -53,6 +50,9 @@ const CurrentDateTime = (currentDateTime: Date | null) => {
           })}`}</span>
         )}
       </div>
+      <button className="settings-button" onClick={() => navigate('/settings')}>
+        ⚙️
+      </button>
     </div>
   )
 }
