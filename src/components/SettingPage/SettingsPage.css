@@ -43,6 +43,7 @@
     color: white;
     padding: 16px 32px;
     text-align: center;
+    font-family: Gilroy, Arial;
     font-size: 16px;
     margin: 4px 2px;
     opacity: 0.6;
@@ -51,6 +52,8 @@
 }
 .run-button:hover {
     color: white;
-    opacity: 1;
-    border-radius: 50px;
+    opacity: 0.9;
+    border-radius: 100px;
+    border-color: rebeccapurple;
+    transition: border-radius 0.5s;
 }
