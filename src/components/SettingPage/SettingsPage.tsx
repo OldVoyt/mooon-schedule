@@ -80,26 +80,36 @@ const daysOffsetOptions: Options<{ value: string; label: string }> = DaysOffsetA
 const SettingsPanel = ({ setTheatre, currentTheatre, currentDaysOffset, setDaysOffset }: ISettingsPanelProps) => {
   return (
     <div className="settings-panel">
-      <span>ВЫБЕРИТЕ КИНОТЕАТР</span>
-      <Select
-        options={theatreOptions}
-        onChange={newValue =>
-          setTheatre({
-            Id: newValue!.value,
-            Name: TheatresAvailable.find(value => value.Id === newValue!.value)!.Name
-          })
-        }
-        isSearchable={false}
-        value={theatreOptions.find(value => value.value === currentTheatre.Id)}
-      />
-      <span>УКАЖИТЕ ДЕНЬ</span>
-      <Select
-        options={daysOffsetOptions}
-        onChange={newValue => setDaysOffset(parseInt(newValue!.value))}
-        value={daysOffsetOptions.find(value => value.value === currentDaysOffset.toString())}
-        placeholder="Select an option"
-        isSearchable={false}
-      />
+      <div>
+        <label>Выбор кинотеатра</label>
+        <div className="select">
+          <Select
+            options={theatreOptions}
+            onChange={newValue =>
+              setTheatre({
+                Id: newValue!.value,
+                Name: TheatresAvailable.find(value => value.Id === newValue!.value)!.Name
+              })
+            }
+            isSearchable={false}
+            value={theatreOptions.find(value => value.value === currentTheatre.Id)}
+          />
+        </div>
+        <div>{'⠀'}</div>
+      </div>
+      <div>
+        <label>Выбор дня</label>
+        <div className="select">
+          <Select
+            options={daysOffsetOptions}
+            onChange={newValue => setDaysOffset(parseInt(newValue!.value))}
+            value={daysOffsetOptions.find(value => value.value === currentDaysOffset.toString())}
+            placeholder="Select an option"
+            isSearchable={false}
+          />
+        </div>
+        <div>{'⠀'}</div>
+      </div>
     </div>
   )
 }
