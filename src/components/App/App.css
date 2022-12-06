@@ -10,7 +10,6 @@ body {
     height: 90vh;
     overflow: hidden;
     margin: 0;
-    padding: 15px;
 }
 
 .root {
@@ -22,11 +21,3 @@ a:hover {
     opacity: 1;
     text-decoration: none;
 }
-
-.schedule-main {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-}
-

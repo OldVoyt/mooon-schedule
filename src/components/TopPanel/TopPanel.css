@@ -1,5 +1,8 @@
 .logo {
+    margin-left: 10px;
+    margin-top: 10px;
     margin-bottom: 30px;
+    height: 20%;
 }
 
 .logo-name-time-container {
@@ -49,4 +52,13 @@
 
     display: flex;
     align-items: center;
+}
+.time-settings-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.settings-button {
+    height: 25px;
+    border-radius: 50%;
 }

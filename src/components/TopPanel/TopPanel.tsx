@@ -1,5 +1,6 @@
 import './TopPanel.css'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const LogoSvg = () => (
   <svg width="324" height="80" viewBox="0 0 324 60" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,33 +27,46 @@ const LogoSvg = () => (
   </svg>
 )
 
-const CurrentDateTime = (currentDateTime: Date) => (
-  <div className="date-time-container">
-    <span className="date-string">{`${currentDateTime.toLocaleString('ru-RU', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })}`}</span>
-    <span className="time-string">{`${currentDateTime.getHours().toLocaleString('en-US', {
-      minimumIntegerDigits: 2,
-      useGrouping: false
-    })}:${currentDateTime.getMinutes().toLocaleString('en-US', {
-      minimumIntegerDigits: 2,
-      useGrouping: false
-    })}`}</span>
-  </div>
-)
+const CurrentDateTime = (currentDateTime: Date | null) => {
+  const navigate = useNavigate()
+
+  return (
+    <div className="date-time-container">
+      {currentDateTime && (
+        <span className="date-string">{`${currentDateTime.toLocaleString('ru-RU', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}`}</span>
+      )}
+      <div className="time-settings-button-container">
+        <button className="settings-button" onClick={() => navigate('/settings')}>
+          ...
+        </button>
+        {currentDateTime && (
+          <span className="time-string">{`${currentDateTime.getHours().toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false
+          })}:${currentDateTime.getMinutes().toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false
+          })}`}</span>
+        )}
+      </div>
+    </div>
+  )
+}
 
 const TheatreName = (theatreName: string) => {
   return <span className="theatre-name">{theatreName}</span>
 }
 
-export const TopPanel = (currentDateTime: Date, theatreName: string) => {
+export const TopPanel = (currentDateTime: Date | null, theatreName?: string) => {
   return (
     <div className="logo">
       <div className="logo-name-time-container">
         {LogoSvg()}
-        {TheatreName(theatreName)}
+        {TheatreName(theatreName ?? '')}
         {CurrentDateTime(currentDateTime)}
       </div>
       <svg width="1080" height="1" viewBox="0 0 1080 1" fill="none" xmlns="http://www.w3.org/2000/svg">
