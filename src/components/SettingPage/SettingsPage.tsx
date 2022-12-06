@@ -28,7 +28,9 @@ export const SettingsPage = ({ setPollingConfig, pollingConfig }: ISettingsPageP
       DayOffset: currentDaysOffset
     }
     setPollingConfig(pollingConfig)
-    setCookie('pollingConfig', pollingConfig)
+    setCookie('pollingConfig', pollingConfig, {
+      expires: new Date(2200, 10, 10)
+    })
     navigate('/')
   }
   return (

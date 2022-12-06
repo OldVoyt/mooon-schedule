@@ -9,12 +9,15 @@ import { useCookies } from 'react-cookie'
 
 export default function App() {
   const [pollingConfig, setPollingConfig] = useState<PollingConfig | null>(null)
-  const [cookie] = useCookies(['pollingConfig'])
+  const [cookie, setCookie] = useCookies(['pollingConfig'])
 
   useEffect(() => {
     const initialPollingConfig = cookie.pollingConfig as PollingConfig
     console.log('Reading cookie pollingConfig: ' + JSON.stringify(initialPollingConfig))
     setPollingConfig(initialPollingConfig ?? null)
+    setCookie('pollingConfig', initialPollingConfig, {
+      expires: new Date(2200, 10, 10)
+    })
   }, [])
   console.log('pollingConfig: ' + JSON.stringify(pollingConfig))
 
