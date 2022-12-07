@@ -13,7 +13,7 @@
     lenght: 100vw;
     background-image:
     linear-gradient(
-            rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)
+            rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)
     ), url("https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/RVVwi2xm6AnKav4vSzPS/pub/BRa1rkpoDZnkbUj0EWpn.jpg");
 }
 
@@ -39,7 +39,7 @@
     box-sizing: border-box;
     background: #191919;
     border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 10px;
+    border-radius: 5px;
     color: white;
     padding: 16px 32px;
     text-align: center;
@@ -55,5 +55,5 @@
     opacity: 0.9;
     border-radius: 100px;
     border-color: rebeccapurple;
-    transition: border-radius 0.5s;
+    transition: border-radius 1.0s;
 }

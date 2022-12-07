@@ -1,7 +1,16 @@
 .movie-card {
-    width: 540px;
+    width: 600px;
     display: flex;
     height: 81px;
+}
+
+@media(min-width:1200px) {
+    .movie-card {
+        width: 480px;
+        display: flex;
+        height: 81px;
+    }
+
 }
 
 .show-description-container {
