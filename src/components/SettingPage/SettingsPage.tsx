@@ -5,24 +5,33 @@ import { useNavigate } from 'react-router-dom'
 import { DaysOffsetAvailable, TheatresAvailable } from '../../types/Settings'
 import Select from 'react-select'
 import { Options } from 'react-select/dist/declarations/src/types'
+import { useCookies } from 'react-cookie'
+
 export interface ISettingsPageProps {
-  setPollingConfig: (pollingConfig: PollingConfig) => void
+  setPollingConfig: (pollingConfig: PollingConfig | null) => void
+  pollingConfig: PollingConfig | null
 }
 
-export const SettingsPage = ({ setPollingConfig }: ISettingsPageProps) => {
-  const [currentTheatre, setTheatre] = useState<Theatre>({
-    Name: TheatresAvailable.find(value => value.Id === '19')!.Name,
-    Id: '19'
-  })
-  const [currentDaysOffset, setDaysOffset] = useState<number>(0)
+export const SettingsPage = ({ setPollingConfig, pollingConfig }: ISettingsPageProps) => {
+  const [_, setCookie] = useCookies(['pollingConfig'])
 
+  const [currentTheatre, setTheatre] = useState<Theatre>({
+    Name: TheatresAvailable.find(value => value.Id === pollingConfig?.Theatre?.Id || '19')!.Name,
+    Id: pollingConfig?.Theatre?.Id ?? '19'
+  })
+  const [currentDaysOffset, setDaysOffset] = useState<number>(pollingConfig?.DayOffset ?? 0)
   const navigate = useNavigate()
+
   const onRunClick = () => {
-    setPollingConfig({
+    const pollingConfig = {
       Theatre: currentTheatre,
       DayOffset: currentDaysOffset
+    }
+    setPollingConfig(pollingConfig)
+    setCookie('pollingConfig', pollingConfig, {
+      expires: new Date(2200, 10, 10)
     })
-    navigate('/schedule')
+    navigate('/')
   }
   return (
     <div className="settings-container">
@@ -73,26 +82,36 @@ const daysOffsetOptions: Options<{ value: string; label: string }> = DaysOffsetA
 const SettingsPanel = ({ setTheatre, currentTheatre, currentDaysOffset, setDaysOffset }: ISettingsPanelProps) => {
   return (
     <div className="settings-panel">
-      <span>ВЫБЕРИТЕ КИНОТЕАТР</span>
-      <Select
-        options={theatreOptions}
-        onChange={newValue =>
-          setTheatre({
-            Id: newValue!.value,
-            Name: TheatresAvailable.find(value => value.Id === newValue!.value)!.Name
-          })
-        }
-        isSearchable={false}
-        value={theatreOptions.find(value => value.value === currentTheatre.Id)}
-      />
-      <span>УКАЖИТЕ ДЕНЬ</span>
-      <Select
-        options={daysOffsetOptions}
-        onChange={newValue => setDaysOffset(parseInt(newValue!.value))}
-        value={daysOffsetOptions.find(value => value.value === currentDaysOffset.toString())}
-        placeholder="Select an option"
-        isSearchable={false}
-      />
+      <div>
+        <label>Выбор кинотеатра</label>
+        <div className="select">
+          <Select
+            options={theatreOptions}
+            onChange={newValue =>
+              setTheatre({
+                Id: newValue!.value,
+                Name: TheatresAvailable.find(value => value.Id === newValue!.value)!.Name
+              })
+            }
+            isSearchable={false}
+            value={theatreOptions.find(value => value.value === currentTheatre.Id)}
+          />
+        </div>
+        <div>{'⠀'}</div>
+      </div>
+      <div>
+        <label>Выбор дня</label>
+        <div className="select">
+          <Select
+            options={daysOffsetOptions}
+            onChange={newValue => setDaysOffset(parseInt(newValue!.value))}
+            value={daysOffsetOptions.find(value => value.value === currentDaysOffset.toString())}
+            placeholder="Select an option"
+            isSearchable={false}
+          />
+        </div>
+        <div>{'⠀'}</div>
+      </div>
     </div>
   )
 }

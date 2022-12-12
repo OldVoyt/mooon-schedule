@@ -1,33 +1,59 @@
 .settings-logo {
-    margin: 40px;
     height: auto;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
 }
 
 .settings-container {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    lenght: 100vw;
+    background-image:
+    linear-gradient(
+            rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)
+    ), url("https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/RVVwi2xm6AnKav4vSzPS/pub/BRa1rkpoDZnkbUj0EWpn.jpg");
 }
-.settings-panel {
-    height: 60%;
-}
-.button-panel {
-    height: 20%;
-}
-.run-button {
-    align-content: end;
-    box-sizing: border-box;
 
+.settings-panel {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 100px;
+    font-family: Gilroy, Arial;
+}
+
+.select{
+    color: #191919;
+    font-family: Gilroy, Arial;
+}
+
+.button-panel {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.run-button {
+    box-sizing: border-box;
     background: #191919;
     border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 30px;
+    border-radius: 5px;
     color: white;
     padding: 16px 32px;
     text-align: center;
+    font-family: Gilroy, Arial;
     font-size: 16px;
     margin: 4px 2px;
     opacity: 0.6;
     transition: 0.3s;
+    margin-top: 50px;
 }
-.run-button:hover {opacity: 1}
+.run-button:hover {
+    color: white;
+    opacity: 0.9;
+    border-radius: 100px;
+    border-color: rebeccapurple;
+    transition: border-radius 1.0s;
+}

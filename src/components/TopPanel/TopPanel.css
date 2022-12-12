@@ -1,4 +1,6 @@
 .logo {
+    margin-left: 10px;
+    margin-top: 10px;
     margin-bottom: 30px;
 }
 
@@ -6,7 +8,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
+    width: 99vw;
 }
 
 .date-time-container {
@@ -36,7 +38,6 @@
     height: 26px;
     left: 360.56px;
     top: 65px;
-
     color: #FFFFFF;
     opacity: 0.3;
 
@@ -49,4 +50,23 @@
 
     display: flex;
     align-items: center;
+}
+.time-settings-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.settings-button {
+    height: 30px;
+    width: 22px;
+    margin-left: auto;
+    margin-right: 0;
+    border-radius: 10%;
+    border-color: rgba(0,0,0,0);
+    opacity: 20%;
+    background-color: inherit;
+}
+.settings-button:hover {
+    opacity: 100%;
+    transition: opacity 1s;
 }
