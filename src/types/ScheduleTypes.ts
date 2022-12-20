@@ -26,9 +26,15 @@ export type Show = {
 export type PollingConfig = {
   Theatre: Theatre
   DayOffset: number
+  LoggerEnabled?: boolean
 }
 
 export type Theatre = {
   Id: string
   Name: string
+}
+
+export type SchedulePageState = {
+  lastScheduleUpdatedTime?: Date
+  shows?: Show[]
 }

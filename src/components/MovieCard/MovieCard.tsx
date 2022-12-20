@@ -19,12 +19,7 @@ const getMinuteLocalized = (minuteNumber: number) => {
   }
 }
 
-const prepareWarning = (show: Show): string | null => {
-  const date = new Date(show.dttmShowStart)
-  const now = new Date()
-
-  const difference = now.getTime() - date.getTime() // This will give difference in milliseconds
-  const resultInMinutes = Math.round(difference / 60000)
+const prepareWarning = (show: Show, resultInMinutes: number): string | null => {
   if (Math.abs(resultInMinutes) > 30) {
     return null
   }
@@ -62,11 +57,21 @@ const label = (labelContent: string) => (
   </div>
 )
 
+function getPassedMinutes(show: Show): number {
+  const date = new Date(show.dttmShowStart)
+  const now = new Date()
+
+  const difference = now.getTime() - date.getTime() // This will give difference in milliseconds
+  const resultInMinutes = Math.round(difference / 60000)
+  return resultInMinutes
+}
+
 const Card = (show: Show) => {
   const showDate = new Date(show.dttmShowStart)
-  const warning = prepareWarning(show)
+  const passedMinutes = getPassedMinutes(show)
+  const warning = prepareWarning(show, passedMinutes)
   return (
-    <div className="movie-card-container">
+    <div className={'movie-card-container' + (passedMinutes > 0 ? ' now' : null)}>
       <div className="movie-card">
         <img
           className="show-image"
@@ -83,7 +88,7 @@ const Card = (show: Show) => {
               useGrouping: false
             })}`}</span>
             <span className="show-auditorium">{`${show.TheatreAuditorium}`}</span>
-            {warning && <span className="show-warn">{`${prepareWarning(show)}`}</span>}
+            {warning && <span className="show-warn">{`${warning}`}</span>}
           </div>
           <span className="show-name">{`${show.Title}`}</span>
           <div className="show-labels-container">

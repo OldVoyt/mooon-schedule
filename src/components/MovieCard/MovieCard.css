@@ -10,6 +10,10 @@
     flex-direction: column;
 }
 
+.now {
+ opacity: 0.5;
+}
+
 .show-image {
     height: 72px;
     width: 50px;
