@@ -1,6 +1,6 @@
 import { TopPanel } from '../TopPanel/TopPanel'
 import { MoviesList } from '../MoviesList/MoviesList'
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { PollingConfig, SchedulePageState } from '../../types/ScheduleTypes'
 import usePolling from '../../hooks/usePolling'
 import React from 'react'
@@ -17,11 +17,10 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
   const [pageState, setPageState] = useState<SchedulePageState>({})
   const [date, setDate] = useState<Date | null>(null)
   const logger = useLogger(pollingConfig)
-  const [schedulePageStateCookie, setSchedulePageStateCookie] = useCookies(['schedulePageState'])
-  useLayoutEffect(() => {
-    const initialPageState = schedulePageStateCookie.schedulePageState as SchedulePageState
+  useEffect(() => {
+    const initialPageState = localStorage.getItem('schedulePageState')
     console.log('Reading cookie schedulePageState: ' + JSON.stringify(initialPageState))
-    if (initialPageState) setPageState(initialPageState)
+    if (initialPageState) setPageState(JSON.parse(initialPageState))
   }, [])
   usePolling(
     async () => {
@@ -35,9 +34,7 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
         pageState,
         value => {
           setPageState(value)
-          setSchedulePageStateCookie('schedulePageState', value, {
-            expires: new Date(2200, 10, 10)
-          })
+          localStorage.setItem('schedulePageState', JSON.stringify(value))
         },
         pollingConfig,
         logger

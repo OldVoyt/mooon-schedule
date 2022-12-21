@@ -23,6 +23,9 @@ const prepareWarning = (show: Show, resultInMinutes: number): string | null => {
   if (Math.abs(resultInMinutes) > 30) {
     return null
   }
+  if (resultInMinutes === 0) {
+    return null
+  }
   if (resultInMinutes < 0) {
     return `через ${-resultInMinutes} ${getMinuteLocalized(-resultInMinutes)}`
   }

@@ -31,6 +31,8 @@ export const SettingsPage = ({ setPollingConfig, pollingConfig }: ISettingsPageP
     setCookie('pollingConfig', pollingConfig, {
       expires: new Date(2200, 10, 10)
     })
+    localStorage.removeItem('schedulePageState')
+
     navigate('/')
   }
   return (
