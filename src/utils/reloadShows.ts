@@ -19,6 +19,7 @@ const updateExistingShows = (
   showsFromApi: Show[],
   currentRequestTime: Date
 ) => {
+  //console.log(pageState)
   if (!pageState.shows) {
     setData({
       ...pageState,
@@ -56,11 +57,12 @@ const updateExistingShows = (
 }
 
 export const reloadShows = async (
-  pageState: SchedulePageState,
   setData: (value: SchedulePageState) => void,
   pollingConfig: PollingConfig,
   logger: ILogger
 ) => {
+  const localPageState = localStorage.getItem('schedulePageState')
+  const pageState: SchedulePageState = localPageState ? JSON.parse(localPageState) : {}
   const currentTime = new Date()
   if (
     pageState.lastScheduleUpdatedTime &&

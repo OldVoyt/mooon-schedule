@@ -7,7 +7,6 @@ import React from 'react'
 import './SchedulePage.css'
 import { useLogger } from '../../hooks/useLogger'
 import { reloadShows } from '../../utils/reloadShows'
-import { useCookies } from 'react-cookie'
 
 export interface ISchedulePageProps {
   pollingConfig: PollingConfig | null
@@ -19,7 +18,7 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
   const logger = useLogger(pollingConfig)
   useEffect(() => {
     const initialPageState = localStorage.getItem('schedulePageState')
-    console.log('Reading cookie schedulePageState: ' + JSON.stringify(initialPageState))
+    console.log('Reading local storage: schedulePageState: ' + JSON.stringify(initialPageState))
     if (initialPageState) setPageState(JSON.parse(initialPageState))
   }, [])
   usePolling(
@@ -31,7 +30,6 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
 
       setDate(currentDate)
       await reloadShows(
-        pageState,
         value => {
           setPageState(value)
           localStorage.setItem('schedulePageState', JSON.stringify(value))
