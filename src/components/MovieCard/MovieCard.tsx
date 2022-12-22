@@ -20,16 +20,18 @@ const getMinuteLocalized = (minuteNumber: number) => {
 }
 
 const prepareWarning = (show: Show, resultInMinutes: number): string | null => {
-  if (Math.abs(resultInMinutes) > 30) {
-    return null
-  }
   if (resultInMinutes === 0) {
     return null
   }
   if (resultInMinutes < 0) {
-    return `через ${-resultInMinutes} ${getMinuteLocalized(-resultInMinutes)}`
+    if (Math.abs(resultInMinutes) > 30) {
+      return null
+    }
+    return `начало через ${-resultInMinutes} ${getMinuteLocalized(-resultInMinutes)}`
+  } else {
+    const endDate = new Date(new Date(show.dttmShowStart).getTime() + show.LengthInMinutes * 60000)
+    return `закончится в ${getHoursAndMinutes(endDate)}`
   }
-  return `идёт ${resultInMinutes} ${getMinuteLocalized(resultInMinutes)}`
 }
 
 const line = () => (
@@ -69,6 +71,16 @@ function getPassedMinutes(show: Show): number {
   return resultInMinutes
 }
 
+function getHoursAndMinutes(showDate: Date) {
+  return `${showDate.getHours().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false
+  })}:${showDate.getMinutes().toLocaleString('en-US', {
+    minimumIntegerDigits: 2,
+    useGrouping: false
+  })}`
+}
+
 const Card = (show: Show) => {
   const showDate = new Date(show.dttmShowStart)
   const passedMinutes = getPassedMinutes(show)
@@ -83,13 +95,7 @@ const Card = (show: Show) => {
         />
         <div className="show-description-container">
           <div className="movie-time-and-auditorium">
-            <span className="show-time">{`${showDate.getHours().toLocaleString('en-US', {
-              minimumIntegerDigits: 2,
-              useGrouping: false
-            })}:${showDate.getMinutes().toLocaleString('en-US', {
-              minimumIntegerDigits: 2,
-              useGrouping: false
-            })}`}</span>
+            <span className="show-time">{getHoursAndMinutes(showDate)}</span>
             <span className="show-auditorium">{`${show.TheatreAuditorium}`}</span>
             {warning && <span className="show-warn">{`${warning}`}</span>}
           </div>
