@@ -1,6 +1,6 @@
 import { TopPanel } from '../TopPanel/TopPanel'
 import { MoviesList } from '../MoviesList/MoviesList'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PollingConfig, SchedulePageState } from '../../types/ScheduleTypes'
 import usePolling from '../../hooks/usePolling'
 import React from 'react'

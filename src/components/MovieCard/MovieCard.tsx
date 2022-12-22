@@ -74,7 +74,7 @@ const Card = (show: Show) => {
   const passedMinutes = getPassedMinutes(show)
   const warning = prepareWarning(show, passedMinutes)
   return (
-    <div className={'movie-card-container' + (passedMinutes > 0 ? ' now' : null)}>
+    <div className={'movie-card-container' + (passedMinutes > 0 ? ' now' : '')}>
       <div className="movie-card">
         <img
           className="show-image"
