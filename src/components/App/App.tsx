@@ -1,4 +1,4 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import { useEffect, useState } from 'react'
 import { PollingConfig } from '../../types/ScheduleTypes'
