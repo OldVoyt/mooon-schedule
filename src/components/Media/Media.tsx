@@ -1,9 +1,13 @@
 import React from 'react'
 
-function App() {
-  const greeting = 'Hello Function Component!'
+function Media() {
+  const videolink = ''
 
-  return <h1>{greeting}</h1>
+  return (
+    <div className="media_vertical">
+      <video className="video" autoPlay muted loop src={videolink}></video>
+    </div>
+  )
 }
 
-export default App
+export default Media
