@@ -50,7 +50,13 @@ const CurrentDateTime = (currentDateTime: Date | null) => {
           })}`}</span>
         )}
       </div>
-      <button className="settings-button" onClick={() => navigate('/settings')}>
+      <button
+        className="settings-button"
+        onClick={() => {
+          const password = window.prompt('Password')
+          if (password === 'Wsxzaq123') navigate('/settings')
+        }}
+      >
         ⚙️
       </button>
     </div>
