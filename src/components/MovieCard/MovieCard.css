@@ -19,6 +19,10 @@
     flex-direction: column;
 }
 
+.now {
+ opacity: 0.5;
+}
+
 .show-image {
     height: 72px;
     width: 50px;
@@ -82,12 +86,11 @@
 
 .show-warn {
     font-family: Gilroy;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0;
-    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
     color: #9f8c45;
-    margin-left: 20px;
+    margin-left: 5%;
+    letter-spacing: 0;
 }
 
 .show-labels-container {

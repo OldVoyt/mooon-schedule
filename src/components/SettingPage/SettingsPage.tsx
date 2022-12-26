@@ -16,21 +16,24 @@ export const SettingsPage = ({ setPollingConfig, pollingConfig }: ISettingsPageP
   const [_, setCookie] = useCookies(['pollingConfig'])
 
   const [currentTheatre, setTheatre] = useState<Theatre>({
-    Name: TheatresAvailable.find(value => value.Id === pollingConfig?.Theatre?.Id || '19')!.Name,
+    Name: TheatresAvailable.find(value => value.Id == (pollingConfig?.Theatre?.Id ?? '19'))!.Name,
     Id: pollingConfig?.Theatre?.Id ?? '19'
   })
   const [currentDaysOffset, setDaysOffset] = useState<number>(pollingConfig?.DayOffset ?? 0)
   const navigate = useNavigate()
 
   const onRunClick = () => {
-    const pollingConfig = {
+    const newPollingConfig = {
       Theatre: currentTheatre,
       DayOffset: currentDaysOffset
     }
-    setPollingConfig(pollingConfig)
-    setCookie('pollingConfig', pollingConfig, {
+    setPollingConfig(newPollingConfig)
+    setCookie('pollingConfig', newPollingConfig, {
       expires: new Date(2200, 10, 10)
     })
+
+    localStorage.removeItem('schedulePageState')
+
     navigate('/')
   }
   return (
