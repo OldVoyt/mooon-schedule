@@ -37,7 +37,7 @@ const updateExistingShows = (
   const updatedShows: Show[] = []
 
   for (const show of pageState.shows) {
-    if (new Date(show.dttmShowStart) < new Date(new Date(currentRequestTime).getTime() + 11 * 60000)) {
+    if (new Date(addLeadingZeros(show.dttmShowStart)) < new Date(new Date(currentRequestTime).getTime() + 11 * 60000)) {
       updatedShows.push(show)
     }
   }
