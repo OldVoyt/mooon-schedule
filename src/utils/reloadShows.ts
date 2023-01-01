@@ -1,17 +1,21 @@
 import { XMLParser } from 'fast-xml-parser'
 import { PollingConfig, SchedulePageState, Show } from '../types/ScheduleTypes'
 import { ILogger } from '../hooks/useLogger'
+import { addLeadingZeros } from './addLeadingZeroes'
 
-export const prepareShowsForRender = (shows: Show[], currentRequestTime: Date) =>
-  shows
+export const prepareShowsForRender = (shows: Show[], currentRequestTime: Date) => {
+  return shows
     .filter(
-      value => new Date(new Date(value.dttmShowStart).getTime() + value.LengthInMinutes * 60000) > currentRequestTime
+      value =>
+        new Date(new Date(addLeadingZeros(value.dttmShowStart)).getTime() + value.LengthInMinutes * 60000) >
+        currentRequestTime
     )
     .sort(function (a, b) {
       // Turn your strings into dates, and then subtract them
       // to get a value that is either negative, positive, or zero.
-      return +new Date(a.dttmShowStart) - +new Date(b.dttmShowStart)
+      return +new Date(addLeadingZeros(a.dttmShowStart)) - +new Date(addLeadingZeros(b.dttmShowStart))
     })
+}
 
 const updateExistingShows = (
   pageState: SchedulePageState,
