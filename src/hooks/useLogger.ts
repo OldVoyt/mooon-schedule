@@ -1,14 +1,14 @@
-import { PollingConfig } from '../types/ScheduleTypes'
+import { PollingConfig, SchedulePageState } from '../types/ScheduleTypes'
 
 export interface ILogger {
   logInfo: (message: string) => void
   logError: (error: Error) => void
 }
 
-export const useLogger = (pollingConfig: PollingConfig | null): ILogger => {
+export const useLogger = (pageState: SchedulePageState | null): ILogger => {
   return {
     logInfo: message => {
-      if (!pollingConfig?.LoggerEnabled) {
+      if (pageState?.config?.LoggerEnabled) {
         console.log(message)
       }
     },

@@ -1,0 +1,72 @@
+.screen-selector-panel {
+    display: flex;
+    flex-direction: row;
+    justify-items: auto;
+}
+
+.screen-selector {
+ min-width: 300px;
+    margin: 10px;
+    color: #191919;
+    font-family: Gilroy, Arial;
+}
+.add-screen-button {
+     margin: 10px;
+    box-sizing: border-box;
+    background: #191919;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 5px;
+    color: white;
+    padding: 7px 15px;
+    text-align: center;
+    font-family: Gilroy, Arial;
+    font-size: 16px;
+    opacity: 0.6;
+    transition: 0.3s;
+ }
+
+.add-screen-button:hover {
+    color: white;
+    opacity: 0.9;
+    border-color: rebeccapurple;
+    transition: border-radius 1.0s;
+}
+.select-screen-message {
+    margin: 10px;
+}
+
+.screen-form-container {
+    margin: 10px;
+}
+
+.screen-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+.editor-selector {
+    color: #191919;
+    font-family: Gilroy, Arial;
+}
+
+.save-button {
+    box-sizing: border-box;
+    background: #191919;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 5px;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-family: Gilroy, Arial;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 0.6;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+.save-button:hover {
+     color: white;
+     opacity: 0.9;
+     border-color: rebeccapurple;
+     transition: border-radius 1.0s;
+ }

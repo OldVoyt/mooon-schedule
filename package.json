@@ -11,6 +11,7 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "@use-it/interval": "^1.0.0",
+    "base-64": "^1.0.0",
     "fast-xml-parser": "^4.0.12",
     "react": "^18.2.0",
     "react-color-palette": "^6.2.0",
@@ -51,6 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^5.44.0",
     "@typescript-eslint/parser": "^5.44.0",
     "eslint": "^8.28.0",
+    "@types/base-64": "^1.0.0",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "2.8.0"

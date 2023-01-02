@@ -1,5 +1,5 @@
 import { XMLParser } from 'fast-xml-parser'
-import { PollingConfig, SchedulePageState, Show } from '../types/ScheduleTypes'
+import { SchedulePageState, Show } from '../types/ScheduleTypes'
 import { ILogger } from '../hooks/useLogger'
 import { addLeadingZeros } from './addLeadingZeroes'
 
@@ -60,11 +60,7 @@ const updateExistingShows = (
   })
 }
 
-export const reloadShows = async (
-  setData: (value: SchedulePageState) => void,
-  pollingConfig: PollingConfig,
-  logger: ILogger
-) => {
+export const reloadShows = async (setData: (value: SchedulePageState) => void, logger: ILogger) => {
   const localPageState = localStorage.getItem('schedulePageState')
   const pageState: SchedulePageState = localPageState ? JSON.parse(localPageState) : {}
   const currentTime = new Date()
@@ -74,12 +70,16 @@ export const reloadShows = async (
   ) {
     return
   }
+  if (!pageState.config) {
+    return
+  }
+
   const url = `https://soft.silverscreen.by:8443/wssite/webapi/xml?mode=showtimes&date=${currentTime.getFullYear()}-${
     currentTime.getMonth() + 1
-  }-${currentTime.getDate() + pollingConfig.DayOffset}&theater=${pollingConfig.Theatre.Id}`
+  }-${currentTime.getDate() + pageState.config.DayOffset}&theater=${pageState.config.TheatreId}`
   logger.logInfo('start fetching ' + url)
 
-  await fetch(url)
+  fetch(url)
     .then(resp => {
       logger.logInfo('fetched successfully.')
       return resp.text()

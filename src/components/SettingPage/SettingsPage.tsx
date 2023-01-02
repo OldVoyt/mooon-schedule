@@ -1,11 +1,12 @@
 import './SettingsPage.css'
-import React, { useState } from 'react'
-import { PollingConfig, Theatre } from '../../types/ScheduleTypes'
+import React, { useEffect, useState } from 'react'
+import { PollingConfig, SchedulePageState, Theatre } from '../../types/ScheduleTypes'
 import { useNavigate } from 'react-router-dom'
 import { DaysOffsetAvailable, TheatresAvailable } from '../../types/Settings'
 import Select from 'react-select'
 import { Options } from 'react-select/dist/declarations/src/types'
 import { useCookies } from 'react-cookie'
+import { getFileList } from '../../utils/postFileToGit'
 
 export interface ISettingsPageProps {
   setPollingConfig: (pollingConfig: PollingConfig | null) => void
@@ -15,106 +16,74 @@ export interface ISettingsPageProps {
 export const SettingsPage = ({ setPollingConfig, pollingConfig }: ISettingsPageProps) => {
   const [_, setCookie] = useCookies(['pollingConfig'])
 
-  const [currentTheatre, setTheatre] = useState<Theatre>({
-    Name: TheatresAvailable.find(value => value.Id == (pollingConfig?.Theatre?.Id ?? '19'))!.Name,
-    Id: pollingConfig?.Theatre?.Id ?? '19'
-  })
-  const [currentDaysOffset, setDaysOffset] = useState<number>(pollingConfig?.DayOffset ?? 0)
   const navigate = useNavigate()
+  const [fileList, setFileList] = useState<string[] | null>(null)
+  const [currentFile, setCurrentFile] = useState<string | null>(null)
 
-  const onRunClick = () => {
+  useEffect(() => {
+    async function fetchData() {
+      const response = await getFileList()
+      setFileList(response.map(value => value.name.replace('.json', '')))
+      if (
+        pollingConfig?.configFileName &&
+        response.find(value => value.name == `${pollingConfig.configFileName}.json`)
+      ) {
+        setCurrentFile(pollingConfig.configFileName)
+      }
+    }
+    fetchData()
+  }, [])
+  const onRunClick = async () => {
+    if (!currentFile) {
+      return
+    }
+
     const newPollingConfig = {
-      Theatre: currentTheatre,
-      DayOffset: currentDaysOffset
+      configFileName: currentFile
     }
     setPollingConfig(newPollingConfig)
     setCookie('pollingConfig', newPollingConfig, {
       expires: new Date(2200, 10, 10)
     })
-
-    localStorage.removeItem('schedulePageState')
+    const pageStateInStarage = localStorage.getItem('schedulePageState')
+    const pageState = pageStateInStarage && (JSON.parse(pageStateInStarage) as SchedulePageState)
+    if (pageState) {
+      const newPageState: SchedulePageState = {
+        ...pageState,
+        lastConfigUpdatedTime: undefined,
+        lastScheduleUpdatedTime: undefined,
+        shows: []
+      }
+      localStorage.setItem('schedulePageState', JSON.stringify(newPageState))
+    }
 
     navigate('/')
   }
+
+  if (!fileList) {
+    return <span>Загружается...</span>
+  }
+  const fileSelectOptions = fileList.map((value, index) => {
+    return {
+      value: value + index,
+      label: value
+    }
+  })
   return (
     <div className="settings-container">
       <Logo />
-      <SettingsPanel
-        currentDaysOffset={currentDaysOffset}
-        currentTheatre={currentTheatre}
-        setTheatre={setTheatre}
-        setDaysOffset={setDaysOffset}
-      />
+      <div className="button-panel">
+        <label>Выбор экрана</label>
+        <div className="select">
+          <Select
+            options={fileSelectOptions}
+            onChange={newValue => setCurrentFile(newValue!.label)}
+            isSearchable={false}
+            value={fileSelectOptions.find(value => value.label == currentFile)}
+          />
+        </div>
+      </div>
       <ButtonPanel onRunClick={onRunClick} />
-    </div>
-  )
-}
-export interface ISettingsPanelProps {
-  currentDaysOffset: number
-  setDaysOffset: (offset: number) => void
-  currentTheatre: Theatre
-  setTheatre: (theatre: Theatre) => void
-}
-
-const theatreOptions: Options<{ value: string; label: string }> = TheatresAvailable.map(value => {
-  return {
-    value: value.Id,
-    label: value.Name
-  }
-})
-
-const getOffsetMessage = (dayOffset: number): string => {
-  switch (dayOffset) {
-    case 0:
-      return 'сегодня'
-    case 1:
-      return 'завтра'
-    case 2:
-      return 'послезавтра'
-  }
-  return `сегодня + ${dayOffset} дней`
-}
-
-const daysOffsetOptions: Options<{ value: string; label: string }> = DaysOffsetAvailable.map(value => {
-  return {
-    value: value.toString(),
-    label: getOffsetMessage(value)
-  }
-})
-
-const SettingsPanel = ({ setTheatre, currentTheatre, currentDaysOffset, setDaysOffset }: ISettingsPanelProps) => {
-  return (
-    <div className="settings-panel">
-      <div>
-        <label>Выбор кинотеатра</label>
-        <div className="select">
-          <Select
-            options={theatreOptions}
-            onChange={newValue =>
-              setTheatre({
-                Id: newValue!.value,
-                Name: TheatresAvailable.find(value => value.Id === newValue!.value)!.Name
-              })
-            }
-            isSearchable={false}
-            value={theatreOptions.find(value => value.value === currentTheatre.Id)}
-          />
-        </div>
-        <div>{'⠀'}</div>
-      </div>
-      <div>
-        <label>Выбор дня</label>
-        <div className="select">
-          <Select
-            options={daysOffsetOptions}
-            onChange={newValue => setDaysOffset(parseInt(newValue!.value))}
-            value={daysOffsetOptions.find(value => value.value === currentDaysOffset.toString())}
-            placeholder="Select an option"
-            isSearchable={false}
-          />
-        </div>
-        <div>{'⠀'}</div>
-      </div>
     </div>
   )
 }
