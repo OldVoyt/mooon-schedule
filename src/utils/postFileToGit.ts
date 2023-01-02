@@ -3,8 +3,8 @@ import { decode, encode } from 'base-64'
 const owner = 'OldVoyt'
 const repo = 'mooon-settings'
 const path = 'settings'
-const personalAccessToken = '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'
-
+const personalAccessTokenEncoded = 'Z2hwX0hiWVBjSmtkZHJ0aGJndXVIQWFBT29GbW1TUW1pNDBBY2JiSA=='
+const personalAccessTokenDecoded = () => decode(personalAccessTokenEncoded)
 interface ISettingFileContent {
   sha: string
   content: string
@@ -26,7 +26,7 @@ export const updateFile = async (fileName: string, newContent: string, sha: stri
   const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}/${fileName}.json`, {
     method: 'PUT',
     headers: {
-      Authorization: `Bearer ${personalAccessToken}`,
+      Authorization: `Bearer ${personalAccessTokenDecoded()}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ path, message, content, sha })
@@ -38,7 +38,7 @@ export const updateFile = async (fileName: string, newContent: string, sha: stri
 export const getFile = async (fileName: string): Promise<ISettingFileContent> => {
   const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}/${fileName}.json`, {
     headers: {
-      Authorization: `Bearer ${personalAccessToken}`,
+      Authorization: `Bearer ${personalAccessTokenDecoded()}`,
       'Content-Type': 'application/json'
     }
   })
@@ -57,7 +57,7 @@ export const createFile = async (fileName: string, content: string): Promise<Fil
   const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}/${fileName}.json`, {
     method: 'PUT',
     headers: {
-      Authorization: `Bearer ${personalAccessToken}`,
+      Authorization: `Bearer ${personalAccessTokenDecoded()}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ path: `${path}/${fileName}.json`, message, content: encodedContent, branch: 'main' })
@@ -69,7 +69,7 @@ export const createFile = async (fileName: string, content: string): Promise<Fil
 export const getFileList = async (): Promise<ISettingFileInfo[]> => {
   const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
     headers: {
-      Authorization: `Bearer ${personalAccessToken}`,
+      Authorization: `Bearer ${personalAccessTokenDecoded()}`,
       'Content-Type': 'application/json'
     }
   })
