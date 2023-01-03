@@ -28,7 +28,7 @@ const prepareWarning = (show: Show, resultInMinutes: number): string | null => {
     if (Math.abs(resultInMinutes) > 30) {
       return null
     }
-    return `начало через ${-resultInMinutes} ${getMinuteLocalized(-resultInMinutes)}`
+    return `через ${-resultInMinutes} ${getMinuteLocalized(-resultInMinutes)}`
   } else {
     const endDate = new Date(new Date(addLeadingZeros(show.dttmShowStart)).getTime() + show.LengthInMinutes * 60000)
     return `закончится в ${getHoursAndMinutes(endDate)}`
