@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Media() {
-  const videolink = ''
+  const videolink = 'https://drive.google.com/uc?id=1m6AmtJS8mVTgeigSLwVk-lYDXlysXl8t'
 
   return (
     <div className="media_vertical">
