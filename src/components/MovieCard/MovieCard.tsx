@@ -1,6 +1,7 @@
 import React from 'react'
 import { Show } from '../../types/ScheduleTypes'
 import './MovieCard.css'
+import { addLeadingZeros } from '../../utils/addLeadingZeroes'
 
 const getMinuteLocalized = (minuteNumber: number) => {
   switch (minuteNumber) {
@@ -29,7 +30,7 @@ const prepareWarning = (show: Show, resultInMinutes: number): string | null => {
     }
     return `начало через ${-resultInMinutes} ${getMinuteLocalized(-resultInMinutes)}`
   } else {
-    const endDate = new Date(new Date(show.dttmShowStart).getTime() + show.LengthInMinutes * 60000)
+    const endDate = new Date(new Date(addLeadingZeros(show.dttmShowStart)).getTime() + show.LengthInMinutes * 60000)
     return `закончится в ${getHoursAndMinutes(endDate)}`
   }
 }
@@ -63,7 +64,7 @@ const label = (labelContent: string) => (
 )
 
 function getPassedMinutes(show: Show): number {
-  const date = new Date(show.dttmShowStart)
+  const date = new Date(addLeadingZeros(show.dttmShowStart))
   const now = new Date()
 
   const difference = now.getTime() - date.getTime() // This will give difference in milliseconds
@@ -82,7 +83,7 @@ function getHoursAndMinutes(showDate: Date) {
 }
 
 const Card = (show: Show) => {
-  const showDate = new Date(show.dttmShowStart)
+  const showDate = new Date(addLeadingZeros(show.dttmShowStart))
   const passedMinutes = getPassedMinutes(show)
   const warning = prepareWarning(show, passedMinutes)
   return (

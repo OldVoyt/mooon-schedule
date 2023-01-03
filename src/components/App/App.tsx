@@ -7,6 +7,7 @@ import { SettingsPage } from '../SettingPage/SettingsPage'
 import { SchedulePage } from '../SchedulePage/SchedulePage'
 import { useCookies } from 'react-cookie'
 import Media from '../Media/Media'
+import { AdminPage } from '../AdminPage/AdminPage'
 
 export default function App() {
   const [pollingConfig, setPollingConfig] = useState<PollingConfig | null>(null)
@@ -30,6 +31,7 @@ export default function App() {
           path="/settings"
           element={<SettingsPage setPollingConfig={setPollingConfig} pollingConfig={pollingConfig} />}
         />
+        <Route path="/admin" element={<AdminPage />} />
         <Route path="/" element={<SchedulePage pollingConfig={pollingConfig} />} />
       </Routes>
     </Router>

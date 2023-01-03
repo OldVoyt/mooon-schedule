@@ -1,17 +1,21 @@
 import { XMLParser } from 'fast-xml-parser'
-import { PollingConfig, SchedulePageState, Show } from '../types/ScheduleTypes'
+import { SchedulePageState, Show } from '../types/ScheduleTypes'
 import { ILogger } from '../hooks/useLogger'
+import { addLeadingZeros } from './addLeadingZeroes'
 
-export const prepareShowsForRender = (shows: Show[], currentRequestTime: Date) =>
-  shows
+export const prepareShowsForRender = (shows: Show[], currentRequestTime: Date) => {
+  return shows
     .filter(
-      value => new Date(new Date(value.dttmShowStart).getTime() + value.LengthInMinutes * 60000) > currentRequestTime
+      value =>
+        new Date(new Date(addLeadingZeros(value.dttmShowStart)).getTime() + value.LengthInMinutes * 60000) >
+        currentRequestTime
     )
     .sort(function (a, b) {
       // Turn your strings into dates, and then subtract them
       // to get a value that is either negative, positive, or zero.
-      return +new Date(a.dttmShowStart) - +new Date(b.dttmShowStart)
+      return +new Date(addLeadingZeros(a.dttmShowStart)) - +new Date(addLeadingZeros(b.dttmShowStart))
     })
+}
 
 const updateExistingShows = (
   pageState: SchedulePageState,
@@ -33,7 +37,7 @@ const updateExistingShows = (
   const updatedShows: Show[] = []
 
   for (const show of pageState.shows) {
-    if (new Date(show.dttmShowStart) < currentRequestTime) {
+    if (new Date(addLeadingZeros(show.dttmShowStart)) < new Date(new Date(currentRequestTime).getTime() + 11 * 60000)) {
       updatedShows.push(show)
     }
   }
@@ -56,11 +60,7 @@ const updateExistingShows = (
   })
 }
 
-export const reloadShows = async (
-  setData: (value: SchedulePageState) => void,
-  pollingConfig: PollingConfig,
-  logger: ILogger
-) => {
+export const reloadShows = async (setData: (value: SchedulePageState) => void, logger: ILogger) => {
   const localPageState = localStorage.getItem('schedulePageState')
   const pageState: SchedulePageState = localPageState ? JSON.parse(localPageState) : {}
   const currentTime = new Date()
@@ -70,12 +70,16 @@ export const reloadShows = async (
   ) {
     return
   }
+  if (!pageState.config) {
+    return
+  }
+
   const url = `https://soft.silverscreen.by:8443/wssite/webapi/xml?mode=showtimes&date=${currentTime.getFullYear()}-${
     currentTime.getMonth() + 1
-  }-${currentTime.getDate() + pollingConfig.DayOffset}&theater=${pollingConfig.Theatre.Id}`
+  }-${currentTime.getDate() + pageState.config.DayOffset}&theater=${pageState.config.TheatreId}`
   logger.logInfo('start fetching ' + url)
 
-  await fetch(url)
+  fetch(url)
     .then(resp => {
       logger.logInfo('fetched successfully.')
       return resp.text()
