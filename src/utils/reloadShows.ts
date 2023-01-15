@@ -63,6 +63,9 @@ const updateExistingShows = (
 export const reloadShows = async (setData: (value: SchedulePageState) => void, logger: ILogger) => {
   const localPageState = localStorage.getItem('schedulePageState')
   const pageState: SchedulePageState = localPageState ? JSON.parse(localPageState) : {}
+  if (pageState.config?.IsAdvertisementEnabled){
+    return
+  }
   const currentTime = new Date()
   if (
     pageState.lastScheduleUpdatedTime &&

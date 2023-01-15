@@ -70,3 +70,11 @@
      border-color: rebeccapurple;
      transition: border-radius 1.0s;
  }
+
+.adv-checkbox {
+    margin-left: 20px;
+}
+.adv-checkbox-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

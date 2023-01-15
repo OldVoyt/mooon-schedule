@@ -45,6 +45,9 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
   const [loggingEnabled, setLoggingEnabled] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [highlightedMovieName, setHighlightedMovieName] = useState<string>('')
+  const [isAdvertisementEnabled, setIsAdvertisementEnabled] = useState<boolean>(false)
+  const [verticalVideoLink, setVerticalVideoLink] = useState<string>('')
+  const [horizontalVideoLink, setHorizontalVideoLink] = useState<string>('')
 
   const updateScreen = async () => {
     if (screenName && !isNew) {
@@ -56,7 +59,10 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
         setTheatreId(appConfig.TheatreId)
         setLoggingEnabled(appConfig.LoggerEnabled)
         setScheduleDay(appConfig.DayOffset)
-        setHighlightedMovieName(appConfig.HighlightedMovieName||'')
+        setHighlightedMovieName(appConfig.HighlightedMovieName || '')
+        setIsAdvertisementEnabled(appConfig.IsAdvertisementEnabled || false)
+        setVerticalVideoLink(appConfig.VerticalVideoLink||'')
+        setHorizontalVideoLink(appConfig.HorizontalVideoLink||'')
       } catch (e) {
         console.error(e)
       } finally {
@@ -68,13 +74,17 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
   useEffect(() => {
     updateScreen()
   }, [screenName, isNew])
+
   // Function to handle saving the changes to the external API
   async function handleSave() {
     const newScreenConfig: ScreenConfig = {
       LoggerEnabled: loggingEnabled,
       DayOffset: scheduleDay,
       TheatreId: theatreId,
-      HighlightedMovieName: highlightedMovieName
+      HighlightedMovieName: highlightedMovieName,
+      IsAdvertisementEnabled: isAdvertisementEnabled,
+      HorizontalVideoLink: horizontalVideoLink,
+      VerticalVideoLink: verticalVideoLink
     }
     await onSave(JSON.stringify(newScreenConfig), sha)
     await updateScreen()
@@ -95,40 +105,67 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
     setScheduleDay(parseInt(dayOffset))
   }
 
+  const handleIsAdvertisementEnabledChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsAdvertisementEnabled(e.target.checked);
+  };
+
   // Render the component
   return (
-    <div className="screen-form-container">
-      {/* Render the cinema ID and schedule day selection form */}
-      <form className="screen-form">
-        <label htmlFor="cinemaId">Выберите кинотеатр:</label>
-        <Select
-          className="editor-selector"
-          options={theatreOptions}
-          onChange={newValue => onSelectTheatre(newValue!.value)}
-          isSearchable={false}
-          value={theatreOptions.find(value => value.value === theatreId)}
-        />
-        <label htmlFor="scheduleDay">Выберите день:</label>
+      <div className="screen-form-container">
+        {/* Render the cinema ID and schedule day selection form */}
+        <form className="screen-form">
+          <label htmlFor="cinemaId">Выберите кинотеатр:</label>
+          <Select
+              className="editor-selector"
+              options={theatreOptions}
+              onChange={newValue => onSelectTheatre(newValue!.value)}
+              isSearchable={false}
+              value={theatreOptions.find(value => value.value === theatreId)}
+          />
+          <label htmlFor="scheduleDay">Выберите день:</label>
 
-        <Select
-          className="editor-selector"
-          options={daysOffsetOptions}
-          onChange={newValue => onSelectDayOffset(newValue!.value)}
-          isSearchable={false}
-          value={daysOffsetOptions.find(value => value.value == scheduleDay.toString())}
-        />
-        <label htmlFor="scheduleDay">Выделить, если содержит:</label>
+          <Select
+              className="editor-selector"
+              options={daysOffsetOptions}
+              onChange={newValue => onSelectDayOffset(newValue!.value)}
+              isSearchable={false}
+              value={daysOffsetOptions.find(value => value.value == scheduleDay.toString())}
+          />
+          <label>Выделить, если содержит:</label>
 
-        <input
-            type="text"
-            value={highlightedMovieName}
-            onChange={e => setHighlightedMovieName(e.target.value)}
-        />
-      </form>
+          <input
+              type="text"
+              value={highlightedMovieName}
+              onChange={e => setHighlightedMovieName(e.target.value)}
+          />
 
-      <button className="save-button" type="button" onClick={handleSave}>
-        Сохранить
-      </button>
-    </div>
+          <label className="adv-checkbox-container">
+            Показывать рекламу
+            <input
+                className="adv-checkbox"
+                type="checkbox"
+                checked={isAdvertisementEnabled}
+                onChange={handleIsAdvertisementEnabledChange}
+            />
+          </label>
+          {isAdvertisementEnabled && <label>Ссылка на вертикальное видео:</label>}
+          {isAdvertisementEnabled && <input
+              type="text"
+              value={verticalVideoLink}
+              onChange={e => setVerticalVideoLink(e.target.value)}
+          />}
+          {isAdvertisementEnabled && <label>Ссылка на горизонтальное видео:</label>}
+          {isAdvertisementEnabled && <input
+              type="text"
+              value={horizontalVideoLink}
+              onChange={e => setHorizontalVideoLink(e.target.value)}
+          />}
+
+        </form>
+
+        <button className="save-button" type="button" onClick={handleSave}>
+          Сохранить
+        </button>
+      </div>
   )
 }

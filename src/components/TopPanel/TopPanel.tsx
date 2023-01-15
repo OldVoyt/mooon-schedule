@@ -1,6 +1,6 @@
 import './TopPanel.css'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import {NavigateFunction} from 'react-router-dom'
 
 const LogoSvg = () => (
   <svg width="324" height="80" viewBox="0 0 324 60" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,8 +27,7 @@ const LogoSvg = () => (
   </svg>
 )
 
-const CurrentDateTime = (currentDateTime: Date | null) => {
-  const navigate = useNavigate()
+const CurrentDateTime = (currentDateTime: Date | null, navigate: NavigateFunction) => {
 
   return (
     <div className="date-time-container">
@@ -67,13 +66,13 @@ const TheatreName = (theatreName: string) => {
   return <span className="theatre-name">{theatreName}</span>
 }
 
-export const TopPanel = (currentDateTime: Date | null, theatreName?: string) => {
+export const TopPanel = (currentDateTime: Date | null,  navigate: NavigateFunction, theatreName?: string) => {
   return (
     <div className="logo">
       <div className="logo-name-time-container">
         {LogoSvg()}
         {TheatreName(theatreName ?? '')}
-        {CurrentDateTime(currentDateTime)}
+        {CurrentDateTime(currentDateTime, navigate)}
       </div>
       <svg width="1080" height="1" viewBox="0 0 1080 1" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="0.5" y1="0.5" x2="1079.5" y2="0.500094" stroke="url(#paint0_linear_1_2486)" strokeLinecap="round" />
