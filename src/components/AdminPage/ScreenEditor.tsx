@@ -44,6 +44,8 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
   const [scheduleDay, setScheduleDay] = useState<number>(0)
   const [loggingEnabled, setLoggingEnabled] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [highlightedMovieName, setHighlightedMovieName] = useState<string>('')
+
   const updateScreen = async () => {
     if (screenName && !isNew) {
       try {
@@ -54,6 +56,7 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
         setTheatreId(appConfig.TheatreId)
         setLoggingEnabled(appConfig.LoggerEnabled)
         setScheduleDay(appConfig.DayOffset)
+        setHighlightedMovieName(appConfig.HighlightedMovieName||'')
       } catch (e) {
         console.error(e)
       } finally {
@@ -70,7 +73,8 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
     const newScreenConfig: ScreenConfig = {
       LoggerEnabled: loggingEnabled,
       DayOffset: scheduleDay,
-      TheatreId: theatreId
+      TheatreId: theatreId,
+      HighlightedMovieName: highlightedMovieName
     }
     await onSave(JSON.stringify(newScreenConfig), sha)
     await updateScreen()
@@ -112,6 +116,13 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
           onChange={newValue => onSelectDayOffset(newValue!.value)}
           isSearchable={false}
           value={daysOffsetOptions.find(value => value.value == scheduleDay.toString())}
+        />
+        <label htmlFor="scheduleDay">Выделить, если содержит:</label>
+
+        <input
+            type="text"
+            value={highlightedMovieName}
+            onChange={e => setHighlightedMovieName(e.target.value)}
         />
       </form>
 

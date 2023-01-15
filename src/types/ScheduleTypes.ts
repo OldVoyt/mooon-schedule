@@ -31,6 +31,7 @@ export type ScreenConfig = {
   DayOffset: number
   TheatreId: string
   LoggerEnabled: boolean
+  HighlightedMovieName?: string
 }
 
 export type SchedulePageState = {

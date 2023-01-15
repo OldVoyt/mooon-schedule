@@ -51,7 +51,7 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
   return (
     <div className="schedule-main">
       {TopPanel(date, TheatresAvailable.find(value => value.Id == pageState.config?.TheatreId)?.Name ?? '')}
-      {pageState.shows && MoviesList(pageState.shows)}
+      {pageState.shows && MoviesList(pageState)}
     </div>
   )
 }
