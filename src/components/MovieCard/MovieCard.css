@@ -45,6 +45,10 @@
     width: 400px;
     white-space: nowrap;
 }
+
+.highlighted {
+    color: red;
+}
 .movie-time-and-auditorium {
     display: flex;
     flex-direction: row;

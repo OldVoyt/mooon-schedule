@@ -82,10 +82,17 @@ function getHoursAndMinutes(showDate: Date) {
   })}`
 }
 
-const Card = (show: Show) => {
+export interface ICardProps {
+  show: Show,
+  highlightedMovieName?: string
+}
+
+
+const Card = ({ show, highlightedMovieName }: ICardProps) => {
   const showDate = new Date(addLeadingZeros(show.dttmShowStart))
   const passedMinutes = getPassedMinutes(show)
   const warning = prepareWarning(show, passedMinutes)
+  const isTitleHighlighted = highlightedMovieName && passedMinutes < 0 && show.Title.indexOf(highlightedMovieName) > 0
   return (
     <div className={'movie-card-container' + (passedMinutes > 0 ? ' now' : '')}>
       <div className="movie-card">
@@ -100,7 +107,7 @@ const Card = (show: Show) => {
             <span className="show-auditorium">{`${show.TheatreAuditorium}`}</span>
             {warning && <span className="show-warn">{`${warning}`}</span>}
           </div>
-          <span className="show-name">{`${show.Title}`}</span>
+          <span className={'show-name' + (isTitleHighlighted ? ' highlighted' : '')}>{`${show.Title}`}</span>
           <div className="show-labels-container">
             {label(show.RatingLabel)}
             {label(show.PresentationMethod)}

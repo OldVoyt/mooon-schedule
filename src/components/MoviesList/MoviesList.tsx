@@ -1,13 +1,13 @@
-import { Show } from '../../types/ScheduleTypes'
+import {SchedulePageState} from '../../types/ScheduleTypes'
 import MovieCard from '../MovieCard/MovieCard'
 import './MoviesList.css'
 import React from 'react'
 
-export const MoviesList = (data: Show[] | null) => {
-  return data ? (
+export const MoviesList = (pageState: SchedulePageState) => {
+  return pageState.shows ? (
     <div className="movies-list-wrapper">
-      {data.map(movie => (
-        <MovieCard key={movie.ID} {...movie} />
+      {pageState.shows.map(movie => (
+        <MovieCard key={movie.ID} show={movie} highlightedMovieName={pageState.config?.HighlightedMovieName} />
       ))}
     </div>
   ) : (
