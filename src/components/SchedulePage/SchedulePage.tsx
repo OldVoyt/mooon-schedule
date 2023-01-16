@@ -10,7 +10,6 @@ import { reloadShows } from '../../utils/reloadShows'
 import { reloadRemoteAppConfig } from '../../utils/reloadRemoteAppConfig'
 import { TheatresAvailable } from '../../types/Settings'
 import {useNavigate} from "react-router-dom";
-import ReactPlayer from "react-player";
 
 export interface ISchedulePageProps {
   pollingConfig: PollingConfig | null
@@ -52,9 +51,9 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
     )
     if (pageState.config?.IsAdvertisementEnabled) {
         if (window.innerHeight > window.innerWidth) {
-            return <ReactPlayer  url={pageState.config.VerticalVideoLink} loop={true} playing={true} />
+            return <video className="video" autoPlay muted loop src={pageState.config.VerticalVideoLink}></video>
         } else {
-            return <ReactPlayer url={pageState.config.HorizontalVideoLink} loop={true} playing={true} />
+            return <video className="video" autoPlay muted loop src={pageState.config.HorizontalVideoLink}></video>
         }
     }
     return (
