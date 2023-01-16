@@ -1,6 +1,6 @@
 import { TopPanel } from '../TopPanel/TopPanel'
 import { MoviesList } from '../MoviesList/MoviesList'
-import { useEffect, useState } from 'react'
+import {useEffect, useRef, useState} from 'react'
 import { PollingConfig, SchedulePageState } from '../../types/ScheduleTypes'
 import usePolling from '../../hooks/usePolling'
 import React from 'react'
@@ -20,6 +20,16 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
     const [date, setDate] = useState<Date | null>(null)
     const logger = useLogger(pageState)
     const navigate= useNavigate()
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    const handleVideoEnd = () => {
+        if (videoRef.current) {
+            videoRef.current.currentTime = 0.1;
+            videoRef.current.play();
+        }
+    };
+
+
     useEffect(() => {
         const initialPageState = localStorage.getItem('schedulePageState')
         console.log('Reading local storage: schedulePageState: ' + JSON.stringify(initialPageState))
@@ -51,9 +61,9 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
     )
     if (pageState.config?.IsAdvertisementEnabled) {
         if (window.innerHeight > window.innerWidth) {
-            return <video className="video" autoPlay muted loop src={pageState.config.VerticalVideoLink}></video>
+            return <video ref={videoRef} onEnded={handleVideoEnd} className="video" autoPlay muted loop src={pageState.config.VerticalVideoLink}></video>
         } else {
-            return <video className="video" autoPlay muted loop src={pageState.config.HorizontalVideoLink}></video>
+            return <video ref={videoRef} onEnded={handleVideoEnd} className="video" autoPlay muted loop src={pageState.config.HorizontalVideoLink}></video>
         }
     }
     return (
