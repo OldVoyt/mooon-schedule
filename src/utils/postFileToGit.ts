@@ -1,4 +1,4 @@
-import { encode, decode } from 'js-base64';
+import { encode, decode } from 'js-base64'
 
 const owner = 'OldVoyt'
 const repo = 'mooon-settings'
