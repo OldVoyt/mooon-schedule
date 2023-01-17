@@ -48,6 +48,8 @@
 
 .highlighted {
     color: #9f8c45;
+    border: 4px;
+    border-color: #9f8c45;
 }
 .movie-time-and-auditorium {
     display: flex;

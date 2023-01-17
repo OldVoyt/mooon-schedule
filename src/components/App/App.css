@@ -20,12 +20,18 @@ body {
     backdrop-filter: blur(4px);
 }
 
-.root {
-    height: 100%;
-    width: 100%;
-}
+@media(min-width:1200px) {
+    .body {
+        background-size: 100vw;
+    }
 
-a:hover {
-    opacity: 1;
-    text-decoration: none;
+    .root {
+        height: 100%;
+        width: 100%;
+    }
+
+    a:hover {
+        opacity: 1;
+        text-decoration: none;
+    }
 }
