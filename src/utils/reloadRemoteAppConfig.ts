@@ -12,7 +12,7 @@ export const reloadRemoteAppConfig = async (
   const currentTime = new Date()
   if (
     pageState.lastConfigUpdatedTime &&
-    (currentTime.getTime() - new Date(pageState.lastConfigUpdatedTime).getTime()) / (1000 * 60) < 15
+    (currentTime.getTime() - new Date(pageState.lastConfigUpdatedTime).getTime()) / (1000 * 60) < 3
   ) {
     return
   }
