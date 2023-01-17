@@ -22,12 +22,14 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
     const navigate= useNavigate()
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    const handleVideoEnd = () => {
+    const handleVideoTimeUpdated = () => {
         if (videoRef.current) {
-            videoRef.current.currentTime = 0.1;
-            videoRef.current.play();
+            if (videoRef.current.currentTime === videoRef.current.duration) {
+                videoRef.current.currentTime = 0.1;
+                videoRef.current.play();
+            }
         }
-    };
+    }
 
 
     useEffect(() => {
@@ -61,9 +63,9 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
     )
     if (pageState.config?.IsAdvertisementEnabled) {
         if (window.innerHeight > window.innerWidth) {
-            return <video ref={videoRef} onEnded={handleVideoEnd} className="video" autoPlay muted loop src={pageState.config.VerticalVideoLink}></video>
+            return <video ref={videoRef} onTimeUpdate={handleVideoTimeUpdated} preload="auto" className="video"  autoPlay muted loop src={pageState.config.VerticalVideoLink}></video>
         } else {
-            return <video ref={videoRef} onEnded={handleVideoEnd} className="video" autoPlay muted loop src={pageState.config.HorizontalVideoLink}></video>
+            return <video ref={videoRef} onTimeUpdate={handleVideoTimeUpdated} preload="auto" className="video" autoPlay muted loop src={pageState.config.HorizontalVideoLink}></video>
         }
     }
     return (
