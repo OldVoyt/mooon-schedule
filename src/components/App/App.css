@@ -14,10 +14,10 @@ body {
     background-image: linear-gradient(
     rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7)
     ),
-    url("https://i.gifer.com/298L.gif"),
+    url("https://thumbs.gfycat.com/SelfassuredCalculatingAmethystinepython-size_restricted.gif"),
     url("https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/RVVwi2xm6AnKav4vSzPS/pub/BRa1rkpoDZnkbUj0EWpn.jpg");
     background-size: 100vh;
-    backdrop-filter: blur(0px);
+    backdrop-filter: blur(4px);
 }
 
 .root {
