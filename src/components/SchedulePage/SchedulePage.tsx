@@ -1,6 +1,6 @@
 import { TopPanel } from '../TopPanel/TopPanel'
 import { MoviesList } from '../MoviesList/MoviesList'
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import { PollingConfig, SchedulePageState } from '../../types/ScheduleTypes'
 import usePolling from '../../hooks/usePolling'
 import React from 'react'
@@ -10,6 +10,7 @@ import { reloadShows } from '../../utils/reloadShows'
 import { reloadRemoteAppConfig } from '../../utils/reloadRemoteAppConfig'
 import { TheatresAvailable } from '../../types/Settings'
 import {useNavigate} from "react-router-dom";
+import ReactPlayer from "react-player";
 
 export interface ISchedulePageProps {
   pollingConfig: PollingConfig | null
@@ -20,14 +21,6 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
     const [date, setDate] = useState<Date | null>(null)
     const logger = useLogger(pageState)
     const navigate= useNavigate()
-    const videoRef = useRef<HTMLVideoElement>(null);
-
-    const handleVideoEnd = () => {
-        if (videoRef.current) {
-            videoRef.current.currentTime = 0.1;
-            videoRef.current.play();
-        }
-    };
 
 
     useEffect(() => {
@@ -61,9 +54,25 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
     )
     if (pageState.config?.IsAdvertisementEnabled) {
         if (window.innerHeight > window.innerWidth) {
-            return <video ref={videoRef} onEnded={handleVideoEnd} className="video" autoPlay muted loop src={pageState.config.VerticalVideoLink}></video>
+            return <ReactPlayer
+                className='react-player'
+                url={pageState.config.VerticalVideoLink}
+                width='100%'
+                height='100%'
+                playing={true}
+                loop={true}
+                muted={true}
+            />
         } else {
-            return <video ref={videoRef} onEnded={handleVideoEnd} className="video" autoPlay muted loop src={pageState.config.HorizontalVideoLink}></video>
+            return <ReactPlayer
+                className='react-player'
+                url={pageState.config.HorizontalVideoLink}
+                width='100%'
+                height='100%'
+                playing={true}
+                loop={true}
+                muted={true}
+            />
         }
     }
     return (
