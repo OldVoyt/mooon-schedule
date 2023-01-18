@@ -59,7 +59,7 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
           url={pageState.config.VerticalVideoLink}
           config={{
             youtube: {
-              playerVars: { controls: 0, disablekb: 1, modestbranding: 1 }
+              playerVars: { showInfo: 0, controls: 0, disablekb: 1 }
             }
           }}
           width="100%"
@@ -76,7 +76,7 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
           url={pageState.config.HorizontalVideoLink}
           config={{
             youtube: {
-              playerVars: { controls: 0, disablekb: 1, modestbranding: 1 }
+              playerVars: { showInfo: 0, controls: 0, disablekb: 1 }
             }
           }}
           width="100%"
