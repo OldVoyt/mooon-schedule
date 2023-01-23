@@ -8,17 +8,29 @@ body {
     font-family: Gilroy;
     display: flex;
     height: 100vh;
-    lenght: 100vw;
     overflow: hidden;
     margin: 0;
     background-image: linear-gradient(
-    rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7)
+    rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)
     ),
-    url("https://thumbs.gfycat.com/SelfassuredCalculatingAmethystinepython-size_restricted.gif"),
-    url("https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/RVVwi2xm6AnKav4vSzPS/pub/BRa1rkpoDZnkbUj0EWpn.jpg");
-    background-size: 100vh;
+    url("https://c4.wallpaperflare.com/wallpaper/553/564/19/cyberpunk-amoled-dark-vertical-hd-wallpaper-preview.jpg"),
+    url("https://c4.wallpaperflare.com/wallpaper/553/564/19/cyberpunk-amoled-dark-vertical-hd-wallpaper-preview.jpg");
+    background-size: 100vw;
     backdrop-filter: blur(4px);
 }
+
+@media (min-width:1200px) {
+    .body {
+        background-size: 100vw;
+        background-image: linear-gradient(
+                rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)
+        ),
+        url("https://wallpapercave.com/wp/HByeKGm.jpg"),
+        url("https://wallpapercave.com/wp/HByeKGm.jpg");
+    }
+}
+
+
 
     .root {
         height: 100%;
