@@ -10,12 +10,12 @@ body {
     overflow: hidden;
     margin: 0;
     background-image: linear-gradient(
-    rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)
+    rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4)
     ),
-    url(""),
+    url("https://docs.google.com/uc?id=1SPL98oOenRfZHhmvR2TkfxZA2aGr-iDr"),
     url("https://docs.google.com/uc?id=1j74lAxqhVhiuhe2xF4gFq8yP_5HZZnxR");
-    background-size: 200%;
-    backdrop-filter: blur(10px);
+    background-size: 100%;
+    backdrop-filter: blur(0px);
 }
 
     .root {
