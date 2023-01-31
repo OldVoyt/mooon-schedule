@@ -7,30 +7,16 @@ body {
     background: black;
     font-family: Gilroy;
     display: flex;
-    height: 100vh;
     overflow: hidden;
     margin: 0;
     background-image: linear-gradient(
-    rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)
+    rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)
     ),
-    url("https://c4.wallpaperflare.com/wallpaper/553/564/19/cyberpunk-amoled-dark-vertical-hd-wallpaper-preview.jpg"),
-    url("https://c4.wallpaperflare.com/wallpaper/553/564/19/cyberpunk-amoled-dark-vertical-hd-wallpaper-preview.jpg");
-    background-size: 100vw;
-    backdrop-filter: blur(4px);
+    url(""),
+    url("https://docs.google.com/uc?id=1j74lAxqhVhiuhe2xF4gFq8yP_5HZZnxR");
+    background-size: 200%;
+    backdrop-filter: blur(10px);
 }
-
-@media (min-width:1200px) {
-    .body {
-        background-size: 100vw;
-        background-image: linear-gradient(
-                rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)
-        ),
-        url("https://wallpapercave.com/wp/HByeKGm.jpg"),
-        url("https://wallpapercave.com/wp/HByeKGm.jpg");
-    }
-}
-
-
 
     .root {
         height: 100%;
