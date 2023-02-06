@@ -47,10 +47,64 @@
 }
 
 .highlighted {
-    color: #9f8c45;
-    border: 4px;
-    border-color: #9f8c45;
+    margin: 0 auto;
+    padding: 0 140px 0 0;
+    display: inline;
+    color: rgba(255, 255, 255, 0.1);
+    background: -webkit-gradient(linear, left top, right top, from(#ffffff), to(#ffffff), color-stop(0.5, #dcb61a));
+    -webkit-background-size: 125px 100%;
+    background-size: 125px 100%;
+    -webkit-background-clip: text;
+    -webkit-animation-name: shimmer;
+    -moz-animation-name: shimmer;
+    animation-name: shimmer;
+    -webkit-animation-duration: 3s;
+    -moz-animation-duration: 3s;
+    animation-duration: 3s;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-color: #ffffff;
 }
+
+@-moz-keyframes shimmer {
+    0% {
+        background-position: top left;
+    }
+    100% {
+        background-position: top right;
+    }
+}
+
+@-webkit-keyframes shimmer {
+    0% {
+        background-position: top left;
+    }
+    100% {
+        background-position: top right;
+    }
+}
+
+@-o-keyframes shimmer {
+    0% {
+        background-position: top left;
+    }
+    100% {
+        background-position: top right;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: top left;
+    }
+    100% {
+        background-position: top right;
+    }
+}
+
 .movie-time-and-auditorium {
     display: flex;
     flex-direction: row;
