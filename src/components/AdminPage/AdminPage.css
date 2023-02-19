@@ -103,3 +103,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+.editor-background-setting {
+    min-height: 100px;
+}

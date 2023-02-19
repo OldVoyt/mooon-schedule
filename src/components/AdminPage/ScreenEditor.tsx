@@ -146,8 +146,8 @@ export const ScreenEditor = ({ screenName, isNew, onSave, onDelete }: IScreenEdi
 
         <label>Настройка фона (CSS background-image):</label>
 
-        <input
-          type="text"
+        <textarea
+          className="editor-background-setting"
           value={cssBackgroundImageString}
           onChange={e => setCssBackgroundImageString(e.target.value)}
         />

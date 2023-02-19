@@ -29,10 +29,8 @@ export const SchedulePage = ({ pollingConfig }: ISchedulePageProps) => {
   }, [])
 
   useEffect(() => {
-    if (!pageState.config?.cssBackgroundString) return
-    if (pageState.config?.cssBackgroundString) {
-      document.body.style.backgroundImage = pageState.config?.cssBackgroundString
-    }
+    if (!pageState.config?.cssBackgroundString || pageState.config?.cssBackgroundString == '') return
+    document.body.style.backgroundImage = pageState.config?.cssBackgroundString
   }, [pageState.config?.cssBackgroundString])
 
   usePolling(
