@@ -19,3 +19,11 @@
     width: 100%;
     height: 100%;
 }
+
+.monitor-info {
+    font-size: 8pt;
+    opacity: 0.2;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}

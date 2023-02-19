@@ -2,7 +2,7 @@ import './AdminPage.css'
 import React, { useEffect, useState } from 'react'
 import { ScreenSelectorPanel } from './TopScreenSelectorPanel'
 import { IScreenEditorProps, ScreenEditor } from './ScreenEditor'
-import { getFileList, createFile, updateFile } from '../../utils/postFileToGit'
+import { getFileList, createFile, updateFile, deleteFile } from '../../utils/postFileToGit'
 
 export const AdminPage = () => {
   const [screens, setScreens] = useState<string[]>([])
@@ -14,7 +14,6 @@ export const AdminPage = () => {
       return [...prevState, newScreenName]
     })
     setSelectedScreen(newScreenName)
-    console.log(newScreenName)
   }
   const saveScreenInRepo = async (content: string, prevSha: string) => {
     if (!selectedScreen) {
@@ -27,6 +26,21 @@ export const AdminPage = () => {
       setInitialScreens([...initialScreens, selectedScreen])
     }
   }
+
+  const deleteScreen = async (prevSha: string) => {
+    if (!selectedScreen) {
+      return
+    }
+    if (initialScreens.includes(selectedScreen)) {
+      if (!(await deleteFile(selectedScreen, prevSha))) {
+        return
+      }
+    }
+    setInitialScreens(prevScreens => prevScreens.filter(value => value != selectedScreen))
+    setScreens(prevScreens => prevScreens.filter(value => value != selectedScreen))
+    setSelectedScreen(null)
+  }
+
   // Fetch the list of screens for the specified cinema and day
   useEffect(() => {
     async function fetchScreens() {
@@ -51,6 +65,7 @@ export const AdminPage = () => {
         screenName={selectedScreen}
         isNew={selectedScreen ? !initialScreens.includes(selectedScreen) : null}
         onSave={saveScreenInRepo}
+        onDelete={deleteScreen}
       ></ScreenEditor>
     </div>
   )

@@ -35,6 +35,7 @@ export type ScreenConfig = {
   IsAdvertisementEnabled?: boolean
   VerticalVideoLink?: string
   HorizontalVideoLink?: string
+  cssBackgroundString?: string
 }
 
 export type SchedulePageState = {

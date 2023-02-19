@@ -10,6 +10,7 @@ export interface IScreenEditorProps {
   screenName: string | null
   isNew: boolean | null
   onSave: (contents: string, prevSha: string) => Promise<void>
+  onDelete: (prevSha: string) => Promise<void>
 }
 
 const theatreOptions: Options<{ value: string; label: string }> = TheatresAvailable.map(value => {
@@ -38,7 +39,7 @@ const daysOffsetOptions: Options<{ value: string; label: string }> = DaysOffsetA
   }
 })
 
-export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) => {
+export const ScreenEditor = ({ screenName, isNew, onSave, onDelete }: IScreenEditorProps) => {
   const [sha, setSha] = useState<string>('')
   const [theatreId, setTheatreId] = useState<string>('')
   const [scheduleDay, setScheduleDay] = useState<number>(0)
@@ -48,6 +49,7 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
   const [isAdvertisementEnabled, setIsAdvertisementEnabled] = useState<boolean>(false)
   const [verticalVideoLink, setVerticalVideoLink] = useState<string>('')
   const [horizontalVideoLink, setHorizontalVideoLink] = useState<string>('')
+  const [cssBackgroundImageString, setCssBackgroundImageString] = useState<string>('')
 
   const updateScreen = async () => {
     if (screenName && !isNew) {
@@ -61,8 +63,9 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
         setScheduleDay(appConfig.DayOffset)
         setHighlightedMovieName(appConfig.HighlightedMovieName || '')
         setIsAdvertisementEnabled(appConfig.IsAdvertisementEnabled || false)
-        setVerticalVideoLink(appConfig.VerticalVideoLink||'')
-        setHorizontalVideoLink(appConfig.HorizontalVideoLink||'')
+        setVerticalVideoLink(appConfig.VerticalVideoLink || '')
+        setHorizontalVideoLink(appConfig.HorizontalVideoLink || '')
+        setCssBackgroundImageString(appConfig.cssBackgroundString || '')
       } catch (e) {
         console.error(e)
       } finally {
@@ -84,10 +87,16 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
       HighlightedMovieName: highlightedMovieName,
       IsAdvertisementEnabled: isAdvertisementEnabled,
       HorizontalVideoLink: horizontalVideoLink,
-      VerticalVideoLink: verticalVideoLink
+      VerticalVideoLink: verticalVideoLink,
+      cssBackgroundString: cssBackgroundImageString
     }
     await onSave(JSON.stringify(newScreenConfig), sha)
     await updateScreen()
+  }
+  async function handleDelete() {
+    const confirmed = confirm(`Действительно удалить ${screenName}?`)
+    if (!confirmed) return
+    await onDelete(sha)
   }
 
   if (!screenName) {
@@ -106,66 +115,68 @@ export const ScreenEditor = ({ screenName, isNew, onSave }: IScreenEditorProps) 
   }
 
   const handleIsAdvertisementEnabledChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsAdvertisementEnabled(e.target.checked);
-  };
+    setIsAdvertisementEnabled(e.target.checked)
+  }
 
   // Render the component
   return (
-      <div className="screen-form-container">
-        {/* Render the cinema ID and schedule day selection form */}
-        <form className="screen-form">
-          <label htmlFor="cinemaId">Выберите кинотеатр:</label>
-          <Select
-              className="editor-selector"
-              options={theatreOptions}
-              onChange={newValue => onSelectTheatre(newValue!.value)}
-              isSearchable={false}
-              value={theatreOptions.find(value => value.value === theatreId)}
-          />
-          <label htmlFor="scheduleDay">Выберите день:</label>
+    <div className="screen-form-container">
+      {/* Render the cinema ID and schedule day selection form */}
+      <form className="screen-form">
+        <label htmlFor="cinemaId">Выберите кинотеатр:</label>
+        <Select
+          className="editor-selector"
+          options={theatreOptions}
+          onChange={newValue => onSelectTheatre(newValue!.value)}
+          isSearchable={false}
+          value={theatreOptions.find(value => value.value === theatreId)}
+        />
+        <label htmlFor="scheduleDay">Выберите день:</label>
 
-          <Select
-              className="editor-selector"
-              options={daysOffsetOptions}
-              onChange={newValue => onSelectDayOffset(newValue!.value)}
-              isSearchable={false}
-              value={daysOffsetOptions.find(value => value.value == scheduleDay.toString())}
-          />
-          <label>Выделить, если содержит:</label>
+        <Select
+          className="editor-selector"
+          options={daysOffsetOptions}
+          onChange={newValue => onSelectDayOffset(newValue!.value)}
+          isSearchable={false}
+          value={daysOffsetOptions.find(value => value.value == scheduleDay.toString())}
+        />
+        <label>Выделить, если содержит:</label>
 
+        <input type="text" value={highlightedMovieName} onChange={e => setHighlightedMovieName(e.target.value)} />
+
+        <label>Настройка фона (CSS background-image):</label>
+
+        <input
+          type="text"
+          value={cssBackgroundImageString}
+          onChange={e => setCssBackgroundImageString(e.target.value)}
+        />
+
+        <label className="adv-checkbox-container">
+          Показывать рекламу
           <input
-              type="text"
-              value={highlightedMovieName}
-              onChange={e => setHighlightedMovieName(e.target.value)}
+            className="adv-checkbox"
+            type="checkbox"
+            checked={isAdvertisementEnabled}
+            onChange={handleIsAdvertisementEnabledChange}
           />
+        </label>
+        {isAdvertisementEnabled && <label>Ссылка на вертикальное видео:</label>}
+        {isAdvertisementEnabled && (
+          <input type="text" value={verticalVideoLink} onChange={e => setVerticalVideoLink(e.target.value)} />
+        )}
+        {isAdvertisementEnabled && <label>Ссылка на горизонтальное видео:</label>}
+        {isAdvertisementEnabled && (
+          <input type="text" value={horizontalVideoLink} onChange={e => setHorizontalVideoLink(e.target.value)} />
+        )}
+      </form>
 
-          <label className="adv-checkbox-container">
-            Показывать рекламу
-            <input
-                className="adv-checkbox"
-                type="checkbox"
-                checked={isAdvertisementEnabled}
-                onChange={handleIsAdvertisementEnabledChange}
-            />
-          </label>
-          {isAdvertisementEnabled && <label>Ссылка на вертикальное видео:</label>}
-          {isAdvertisementEnabled && <input
-              type="text"
-              value={verticalVideoLink}
-              onChange={e => setVerticalVideoLink(e.target.value)}
-          />}
-          {isAdvertisementEnabled && <label>Ссылка на горизонтальное видео:</label>}
-          {isAdvertisementEnabled && <input
-              type="text"
-              value={horizontalVideoLink}
-              onChange={e => setHorizontalVideoLink(e.target.value)}
-          />}
-
-        </form>
-
-        <button className="save-button" type="button" onClick={handleSave}>
-          Сохранить
-        </button>
-      </div>
+      <button className="save-button" type="button" onClick={handleSave}>
+        Сохранить
+      </button>
+      <button className="delete-button" type="button" onClick={handleDelete}>
+        Удалить
+      </button>
+    </div>
   )
 }

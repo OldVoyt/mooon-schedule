@@ -28,7 +28,6 @@ export const ScreenSelectorPanel = ({
       label: value
     }
   })
-
   return (
     <div className="screen-selector-panel">
       {/* Render the list of screens */}
@@ -37,7 +36,8 @@ export const ScreenSelectorPanel = ({
         options={screenOptions}
         onChange={newValue => onSelectScreen(newValue!.label)}
         isSearchable={false}
-        value={screenOptions.find(value => value.value === selectedScreenName)}
+        placeholder={'Выберите экран...'}
+        value={selectedScreenName ? screenOptions.find(value => value.value === selectedScreenName) : null}
       />
       {/* Render the add and save buttons */}
       <button type="button" className="add-screen-button" onClick={handleAddScreen}>

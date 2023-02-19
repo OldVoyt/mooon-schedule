@@ -2,6 +2,7 @@ import React from 'react'
 import { Show } from '../../types/ScheduleTypes'
 import './MovieCard.css'
 import { addLeadingZeros } from '../../utils/addLeadingZeroes'
+import { getHoursAndMinutes } from '../../utils/getHoursAndMinutes'
 
 const getMinuteLocalized = (minuteNumber: number) => {
   switch (minuteNumber) {
@@ -72,21 +73,10 @@ function getPassedMinutes(show: Show): number {
   return resultInMinutes
 }
 
-function getHoursAndMinutes(showDate: Date) {
-  return `${showDate.getHours().toLocaleString('en-US', {
-    minimumIntegerDigits: 2,
-    useGrouping: false
-  })}:${showDate.getMinutes().toLocaleString('en-US', {
-    minimumIntegerDigits: 2,
-    useGrouping: false
-  })}`
-}
-
 export interface ICardProps {
-  show: Show,
+  show: Show
   highlightedMovieName?: string
 }
-
 
 const Card = ({ show, highlightedMovieName }: ICardProps) => {
   const showDate = new Date(addLeadingZeros(show.dttmShowStart))

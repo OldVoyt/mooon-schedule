@@ -66,6 +66,26 @@ export const createFile = async (fileName: string, content: string): Promise<Fil
   return { sha: (await response.json()).sha }
 }
 
+export const deleteFile = async (fileName: string, sha: string): Promise<boolean> => {
+  try {
+    const message = 'Delete ' + fileName
+
+    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}/${fileName}.json`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${personalAccessTokenDecoded()}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ message, branch: 'main', sha })
+    })
+    console.log('File deleted:' + fileName)
+    return true
+  } catch (e) {
+    console.error('Failed to delete:' + JSON.stringify(e))
+  }
+  return false
+}
+
 export const getFileList = async (): Promise<ISettingFileInfo[]> => {
   const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
     headers: {
