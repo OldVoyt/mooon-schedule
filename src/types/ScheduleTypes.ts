@@ -39,6 +39,7 @@ export type ScreenConfig = {
 }
 
 export type SchedulePageState = {
+  configFileName?: string
   lastScheduleUpdatedTime?: Date
   lastConfigUpdatedTime?: Date
   shows?: Show[]

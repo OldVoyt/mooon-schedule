@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom'
 import './App.css'
 import { useEffect, useState } from 'react'
-import { PollingConfig } from '../../types/ScheduleTypes'
+import { PollingConfig, SchedulePageState } from '../../types/ScheduleTypes'
 import React from 'react'
 import { SettingsPage } from '../SettingPage/SettingsPage'
 import { SchedulePage } from '../SchedulePage/SchedulePage'
@@ -11,6 +11,23 @@ import { AdminPage } from '../AdminPage/AdminPage'
 
 function ScheduleByFileName() {
   let { fileName } = useParams()
+  useEffect(() => {
+    const initialPageState = localStorage.getItem('schedulePageState')
+    console.log('Reading local storage: schedulePageState: ' + JSON.stringify(initialPageState))
+    if (initialPageState) {
+      const pageState = JSON.parse(initialPageState) as SchedulePageState
+      if (pageState.configFileName !== fileName) {
+        const newPageState: SchedulePageState = {
+          ...pageState,
+          lastConfigUpdatedTime: undefined,
+          lastScheduleUpdatedTime: undefined,
+          shows: [],
+          configFileName: fileName
+        }
+        localStorage.setItem('schedulePageState', JSON.stringify(newPageState))
+      }
+    }
+  }, [])
   return (
     <SchedulePage
       pollingConfig={{

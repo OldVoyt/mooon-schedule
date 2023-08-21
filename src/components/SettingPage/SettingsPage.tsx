@@ -52,7 +52,8 @@ export const SettingsPage = ({ setPollingConfig, pollingConfig }: ISettingsPageP
         ...pageState,
         lastConfigUpdatedTime: undefined,
         lastScheduleUpdatedTime: undefined,
-        shows: []
+        shows: [],
+        configFileName: currentFile
       }
       localStorage.setItem('schedulePageState', JSON.stringify(newPageState))
     }
