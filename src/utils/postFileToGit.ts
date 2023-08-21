@@ -3,7 +3,7 @@ import { encode, decode } from 'js-base64'
 const owner = 'OldVoyt'
 const repo = 'mooon-settings'
 const path = 'settings'
-const personalAccessTokenEncoded = 'Z2hwX0hiWVBjSmtkZHJ0aGJndXVIQWFBT29GbW1TUW1pNDBBY2JiSA=='
+const personalAccessTokenEncoded = 'Z2hwX1RVNWVoaTVxdmtOejdna0FIdVBSYklLcFBWU1h0bTQyckxpOQ=='
 const personalAccessTokenDecoded = () => decode(personalAccessTokenEncoded)
 interface ISettingFileContent {
   sha: string

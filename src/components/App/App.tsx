@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom'
 import './App.css'
 import { useEffect, useState } from 'react'
 import { PollingConfig } from '../../types/ScheduleTypes'
@@ -8,6 +8,17 @@ import { SchedulePage } from '../SchedulePage/SchedulePage'
 import { useCookies } from 'react-cookie'
 import Media from '../Media/Media'
 import { AdminPage } from '../AdminPage/AdminPage'
+
+function ScheduleByFileName() {
+  let { fileName } = useParams()
+  return (
+    <SchedulePage
+      pollingConfig={{
+        configFileName: fileName
+      }}
+    />
+  )
+}
 
 export default function App() {
   const [pollingConfig, setPollingConfig] = useState<PollingConfig | null>(null)
@@ -33,6 +44,9 @@ export default function App() {
         />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/" element={<SchedulePage pollingConfig={pollingConfig} />} />
+        <Route path="/byFileName">
+          <Route path=":fileName" element={<ScheduleByFileName />} />
+        </Route>
       </Routes>
     </Router>
   )
