@@ -7,24 +7,24 @@ body {
     background: black;
     font-family: Gilroy;
     display: flex;
-    height: 100vh;
-    lenght: 100vw;
     overflow: hidden;
+    height: 100vh;
     margin: 0;
     background-image: linear-gradient(
-    rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6)
+    rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)
     ),
-    url("https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/RVVwi2xm6AnKav4vSzPS/pub/BRa1rkpoDZnkbUj0EWpn.jpg"),
-    url("https://storage.googleapis.com/glide-prod.appspot.com/uploads-v2/RVVwi2xm6AnKav4vSzPS/pub/BRa1rkpoDZnkbUj0EWpn.jpg");
-    backdrop-filter: blur(30px);
+    url("https://docs.google.com/uc?id=1SPL98oOenRfZHhmvR2TkfxZA2aGr-iDr"),
+    url("https://docs.google.com/uc?id=1j74lAxqhVhiuhe2xF4gFq8yP_5HZZnxR");
+    background-size: 100vh;
+    backdrop-filter: blur(0px);
 }
 
-.root {
-    height: 100%;
-    width: 100%;
-}
+    .root {
+        height: 100%;
+        width: 100%;
+    }
 
-a:hover {
-    opacity: 1;
-    text-decoration: none;
-}
+    a:hover {
+        opacity: 1;
+        text-decoration: none;
+    }
