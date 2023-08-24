@@ -1,16 +1,16 @@
-import { ScreenConfig, Theatre } from '../../types/ScheduleTypes'
+import { ScheduleSettings, ScreenConfig, Theatre } from '../../types/ScheduleTypes'
 import { useEffect, useState } from 'react'
 import { DaysOffsetAvailable, TheatresAvailable } from '../../types/Settings'
-import { getFile, getFileList } from '../../utils/postFileToGit'
 import { Options } from 'react-select/dist/declarations/src/types'
 import './AdminPage.css'
 import Select from 'react-select'
+import { getScheduleSettings } from '../../utils/scheduleSettingsRepository'
 
 export interface IScreenEditorProps {
   screenName: string | null
   isNew: boolean | null
-  onSave: (contents: string, prevSha: string) => Promise<void>
-  onDelete: (prevSha: string) => Promise<void>
+  onSave: (settings: ScheduleSettings) => Promise<void>
+  onDelete: (screenName: string) => Promise<void>
 }
 
 const theatreOptions: Options<{ value: string; label: string }> = TheatresAvailable.map(value => {
@@ -40,7 +40,6 @@ const daysOffsetOptions: Options<{ value: string; label: string }> = DaysOffsetA
 })
 
 export const ScreenEditor = ({ screenName, isNew, onSave, onDelete }: IScreenEditorProps) => {
-  const [sha, setSha] = useState<string>('')
   const [theatreId, setTheatreId] = useState<string>('')
   const [scheduleDay, setScheduleDay] = useState<number>(0)
   const [loggingEnabled, setLoggingEnabled] = useState<boolean>(false)
@@ -55,16 +54,11 @@ export const ScreenEditor = ({ screenName, isNew, onSave, onDelete }: IScreenEdi
     if (screenName && !isNew) {
       try {
         setIsLoading(true)
-        const file = await getFile(screenName)
-        setSha(file.sha)
-        const appConfig = JSON.parse(file.content) as ScreenConfig
+        const appConfig = await getScheduleSettings(screenName)
         setTheatreId(appConfig.TheatreId)
         setLoggingEnabled(appConfig.LoggerEnabled)
         setScheduleDay(appConfig.DayOffset)
         setHighlightedMovieName(appConfig.HighlightedMovieName || '')
-        setIsAdvertisementEnabled(appConfig.IsAdvertisementEnabled || false)
-        setVerticalVideoLink(appConfig.VerticalVideoLink || '')
-        setHorizontalVideoLink(appConfig.HorizontalVideoLink || '')
         setCssBackgroundImageString(appConfig.cssBackgroundString || '')
       } catch (e) {
         console.error(e)
@@ -80,23 +74,21 @@ export const ScreenEditor = ({ screenName, isNew, onSave, onDelete }: IScreenEdi
 
   // Function to handle saving the changes to the external API
   async function handleSave() {
-    const newScreenConfig: ScreenConfig = {
+    const newScreenConfig: ScheduleSettings = {
+      Name: screenName!,
       LoggerEnabled: loggingEnabled,
       DayOffset: scheduleDay,
       TheatreId: theatreId,
       HighlightedMovieName: highlightedMovieName,
-      IsAdvertisementEnabled: isAdvertisementEnabled,
-      HorizontalVideoLink: horizontalVideoLink,
-      VerticalVideoLink: verticalVideoLink,
       cssBackgroundString: cssBackgroundImageString
     }
-    await onSave(JSON.stringify(newScreenConfig), sha)
+    await onSave(newScreenConfig)
     await updateScreen()
   }
   async function handleDelete() {
     const confirmed = confirm(`Действительно удалить ${screenName}?`)
     if (!confirmed) return
-    await onDelete(sha)
+    await onDelete(screenName!)
   }
 
   if (!screenName) {

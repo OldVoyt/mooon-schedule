@@ -11,23 +11,6 @@ import { AdminPage } from '../AdminPage/AdminPage'
 
 function ScheduleByFileName() {
   let { fileName } = useParams()
-  useEffect(() => {
-    const initialPageState = localStorage.getItem('schedulePageState')
-    console.log('Reading local storage: schedulePageState: ' + JSON.stringify(initialPageState))
-    if (initialPageState) {
-      const pageState = JSON.parse(initialPageState) as SchedulePageState
-      if (pageState.configFileName !== fileName) {
-        const newPageState: SchedulePageState = {
-          ...pageState,
-          lastConfigUpdatedTime: undefined,
-          lastScheduleUpdatedTime: undefined,
-          shows: [],
-          configFileName: fileName
-        }
-        localStorage.setItem('schedulePageState', JSON.stringify(newPageState))
-      }
-    }
-  }, [])
   return (
     <SchedulePage
       pollingConfig={{

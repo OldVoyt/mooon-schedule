@@ -53,3 +53,19 @@ export type Theatre = {
   Id: string
   Name: string
 }
+export type ScheduleSettings = {
+  Name: string
+  DayOffset: number
+  TheatreId: string
+  LoggerEnabled: boolean
+  HighlightedMovieName?: string
+  cssBackgroundString?: string
+}
+export type CachedScheduleData = {
+  configName: string
+  lastUpdatedTime?: Date
+  shows?: Show[]
+  cssBackgroundString?: string
+  TheatreId: string
+  HighlightedMovieName?: string
+}

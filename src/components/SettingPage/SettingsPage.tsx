@@ -2,11 +2,9 @@ import './SettingsPage.css'
 import React, { useEffect, useState } from 'react'
 import { PollingConfig, SchedulePageState, Theatre } from '../../types/ScheduleTypes'
 import { useNavigate } from 'react-router-dom'
-import { DaysOffsetAvailable, TheatresAvailable } from '../../types/Settings'
 import Select from 'react-select'
-import { Options } from 'react-select/dist/declarations/src/types'
 import { useCookies } from 'react-cookie'
-import { getFileList } from '../../utils/postFileToGit'
+import { getScheduleSettingsList } from '../../utils/scheduleSettingsRepository'
 
 export interface ISettingsPageProps {
   setPollingConfig: (pollingConfig: PollingConfig | null) => void
@@ -22,12 +20,9 @@ export const SettingsPage = ({ setPollingConfig, pollingConfig }: ISettingsPageP
 
   useEffect(() => {
     async function fetchData() {
-      const response = await getFileList()
-      setFileList(response.map(value => value.name.replace('.json', '')))
-      if (
-        pollingConfig?.configFileName &&
-        response.find(value => value.name == `${pollingConfig.configFileName}.json`)
-      ) {
+      const response = await getScheduleSettingsList()
+      setFileList(response.map(value => value.Name))
+      if (pollingConfig?.configFileName && response.find(value => value.Name == pollingConfig.configFileName)) {
         setCurrentFile(pollingConfig.configFileName)
       }
     }
@@ -45,20 +40,7 @@ export const SettingsPage = ({ setPollingConfig, pollingConfig }: ISettingsPageP
     setCookie('pollingConfig', newPollingConfig, {
       expires: new Date(2200, 10, 10)
     })
-    const pageStateInStarage = localStorage.getItem('schedulePageState')
-    const pageState = pageStateInStarage && (JSON.parse(pageStateInStarage) as SchedulePageState)
-    if (pageState) {
-      const newPageState: SchedulePageState = {
-        ...pageState,
-        lastConfigUpdatedTime: undefined,
-        lastScheduleUpdatedTime: undefined,
-        shows: [],
-        configFileName: currentFile
-      }
-      localStorage.setItem('schedulePageState', JSON.stringify(newPageState))
-    }
-
-    navigate('/')
+    navigate('/byFileName/' + currentFile)
   }
 
   if (!fileList) {

@@ -2,7 +2,12 @@ import './AdminPage.css'
 import React, { useEffect, useState } from 'react'
 import { ScreenSelectorPanel } from './TopScreenSelectorPanel'
 import { IScreenEditorProps, ScreenEditor } from './ScreenEditor'
-import { getFileList, createFile, updateFile, deleteFile } from '../../utils/postFileToGit'
+import {
+  deleteScheduleSettings,
+  getScheduleSettingsList,
+  updateScheduleSettings
+} from '../../utils/scheduleSettingsRepository'
+import { ScheduleSettings } from '../../types/ScheduleTypes'
 
 export const AdminPage = () => {
   const [screens, setScreens] = useState<string[]>([])
@@ -15,24 +20,24 @@ export const AdminPage = () => {
     })
     setSelectedScreen(newScreenName)
   }
-  const saveScreenInRepo = async (content: string, prevSha: string) => {
+  const saveScreenInRepo = async (settings: ScheduleSettings) => {
     if (!selectedScreen) {
       return
     }
     if (initialScreens.includes(selectedScreen)) {
-      await updateFile(selectedScreen, content, prevSha)
+      await updateScheduleSettings(settings)
     } else {
-      await createFile(selectedScreen, content)
+      await updateScheduleSettings(settings)
       setInitialScreens([...initialScreens, selectedScreen])
     }
   }
 
-  const deleteScreen = async (prevSha: string) => {
+  const deleteScreen = async () => {
     if (!selectedScreen) {
       return
     }
     if (initialScreens.includes(selectedScreen)) {
-      if (!(await deleteFile(selectedScreen, prevSha))) {
+      if (!(await deleteScheduleSettings(selectedScreen))) {
         return
       }
     }
@@ -45,10 +50,10 @@ export const AdminPage = () => {
   useEffect(() => {
     async function fetchScreens() {
       // Make a call to the external API to retrieve the list of screens
-      const response = await getFileList()
+      const response = await getScheduleSettingsList()
 
-      setScreens(response.map(value => value.name.replace('.json', '')))
-      setInitialScreens(response.map(value => value.name.replace('.json', '')))
+      setScreens(response.map(value => value.Name))
+      setInitialScreens(response.map(value => value.Name))
     }
     fetchScreens()
   }, [])
