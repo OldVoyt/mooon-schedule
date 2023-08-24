@@ -9,7 +9,6 @@ import { useLogger } from '../../hooks/useLogger'
 import { reloadRemoteAppConfig } from '../../utils/reloadRemoteAppConfig'
 import { TheatresAvailable } from '../../types/Settings'
 import { useNavigate } from 'react-router-dom'
-import { VideoPlayer } from './VideoPlayer'
 
 export interface ISchedulePageProps {
   pollingConfig: PollingConfig | null
